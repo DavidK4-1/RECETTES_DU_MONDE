@@ -18,11 +18,11 @@ public class UserService : IUserService {
         _signInManager = signInManager;
     }
     public async Task<bool> RegisterUserAsync(UserRegister model) {
-        if (!await CheakEmailAvailability(model.Email)) {
+        if (!await CheakEmailAvailabilityAsync(model.Email)) {
             Console.WriteLine("Invalid email");
             return false;
         }
-        if (!await CheakUserNameAvailibility(model.UserName)) {
+        if (!await CheakUserNameAvailibilityAsync(model.UserName)) {
             Console.WriteLine("Invalid username");
             return false;
         }
@@ -37,12 +37,12 @@ public class UserService : IUserService {
         return registerResult.Succeeded;
     }
 
-    private async Task<bool> CheakUserNameAvailibility(string userName) { 
+    private async Task<bool> CheakUserNameAvailibilityAsync(string userName) { 
         User? existingUser = await _userManager.FindByNameAsync(userName);
         return existingUser is null;
     }
 
-    private async Task<bool> CheakEmailAvailability(string email) {
+    private async Task<bool> CheakEmailAvailabilityAsync(string email) {
         User? existingUser = await _userManager.FindByEmailAsync(email);
         return existingUser is null;
     }
