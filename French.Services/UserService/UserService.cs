@@ -8,6 +8,7 @@ namespace French.Services.UserService;
 public class UserService : IUserService {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<User> _userManager;
+                                         // in order to use you need tokens
     private readonly SignInManager<User> _signInManager;
 
     public UserService(  ApplicationDbContext context,
