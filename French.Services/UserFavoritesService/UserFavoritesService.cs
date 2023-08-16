@@ -1,19 +1,29 @@
 ﻿using System;
 using French.Data;
 using French.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+
 namespace French.Services.UserFavoritesService
 {
 	public class UserFavoritesService : IUserFavoriteService
 	{
+		private readonly ApplicationDbContext _context;
+		
+		public UserFavoritesService(ApplicationDbContext context)
+		{
+			_context = context;
+		}
+
 		public void AddRecipeToFavorites(int recipeId, int userId)
 		{
-            using (var ctx = new ApplicationDbContext())
+			UserFavorite favorite = new UserFavorite()
 			{
-				var foundRecipe = ctx.Recipes.Single(f => f.recipeId == recipeId);
-				var foundUser = ctx.Users.Single(o => o.Id == userId);
-				foundRecipe.ListOfFavorites.Add(foundFavorite)
+				UserId = userId,
+				RecipeId = recipeId
+			};
 
-			}
+			_context.UserFavorites.Add(favorite);
+			_context.SaveChangesAsync();
 		}
 	}
 }
