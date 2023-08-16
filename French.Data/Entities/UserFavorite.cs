@@ -8,10 +8,10 @@ public class UserFavorite
     [Key]
     public int Id { get; set; }
 
-    [ForeignKey("UserFavoriteId")]
+    [ForeignKey("UserObj")]
     public int UserId { get; set; }
 
-    public virtual User UserFavoriteId { get; set; } 
+    public virtual User UserObj { get; set; } 
 
     [ForeignKey("Recipe")]
     public int RecipeId { get; set; }
