@@ -5,7 +5,7 @@ namespace French.Services.CatagoryService
 {
 	public interface ICategoryService
 	{
-		Task<CategoryListItem?> CreateCategoryAsnc(CategoryCreate request);
+		Task<CategoryListItem?> CreateCategoryAsync(CategoryCreate request);
 
 		Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync();
 

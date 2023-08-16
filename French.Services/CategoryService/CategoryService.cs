@@ -21,7 +21,7 @@ public class CategoryService : ICategoryService
             .Where(entity => entity.CategoryId == _userId)
             .Select(entity => new CategoryListItem
             {
-                Id = entity.Id,
+                Id = entity.CategoryId,
                 Name = entity.Name
             })
             .ToListAsync();
