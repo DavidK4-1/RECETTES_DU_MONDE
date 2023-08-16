@@ -20,4 +20,12 @@ public class IngredientService : IIngredientService{
         _context.Ingredients.Add(ingredient);
         return await _context.SaveChangesAsync() == 1;
     }
+
+    public async Task<IngredientItem?> GetIngredientByIdAsync(int id) {
+        var Ingredient = await _context.Ingredients.FindAsync(id);
+        return new IngredientItem() {
+            Description = Ingredient.Description,
+            Name = Ingredient.Name
+        };
+    }
 }

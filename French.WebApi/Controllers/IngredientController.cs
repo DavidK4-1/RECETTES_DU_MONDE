@@ -27,5 +27,7 @@ public class IngredientController : ControllerBase {
                                                                      : BadRequest(new TextResponse("User could not be registered"));
     }
     //get ingredient by id
-
+    [HttpGet("{Id:int}")]
+    public async Task<IActionResult> GetIngredientById([FromRoute] int ingredientId) 
+        => 
 }

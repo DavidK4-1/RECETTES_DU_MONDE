@@ -9,4 +9,11 @@ public class Ingredient {
     public string Name { get; set; }
     [Required, MaxLength(1000)]
     public string Description { get; set; }
+
+    //not implimented fully
+    public virtual ICollection<Recipe> RecipeList { get; set; }
+
+    public Ingredient() {
+        RecipeList = new HashSet<Recipe>();
+    } 
 }
