@@ -27,5 +27,4 @@ public class Recipe
         ListOfCatagorys = new HashSet<Catagory>();
         Ingredients = new HashSet<Ingredient>();
     }
-
 }
