@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using French.Data.Entities;
+using French.Models.CatagoryModels;
 using French.Services.CatagoryService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,26 @@ namespace French.WebApi.Controllers
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryCreate request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = await _categoryService.CreateCategoryAsnc(request);
+            if (response is not null)
+                return Ok(response);
+
+            return BadRequest(new TextRespose("Could not create category :( ."));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var category = await _categoryService.GetAllCategoriesAsync();
+            return Ok(category);
         }
 
     }
