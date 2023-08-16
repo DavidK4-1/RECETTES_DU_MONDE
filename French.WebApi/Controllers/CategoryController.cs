@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using French.Data.Entities;
 using French.Models.CatagoryModels;
+using French.Models.Responces;
 using French.Services.CatagoryService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,11 @@ namespace French.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var response = await _categoryService.CreateCategoryAsnc(request);
+            var response = await _categoryService.CreateCategoryAsync(request);
             if (response is not null)
                 return Ok(response);
 
-            return BadRequest(new TextRespose("Could not create category :( ."));
+            return BadRequest(new TextResponse("Could not create category :( ."));
         }
 
         [HttpGet]
