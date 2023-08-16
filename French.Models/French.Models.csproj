@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="CatagoryModels\" />
-    <Folder Include="IngredientModels\" />
     <Folder Include="UserFavoritesModels\" />
     <Folder Include="UserPostModels\" />
     <Folder Include="RecipeModels\" />
