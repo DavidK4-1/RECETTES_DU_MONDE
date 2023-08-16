@@ -16,7 +16,6 @@
     <Folder Include="IngredientService\" />
     <Folder Include="RecipeService\" />
     <Folder Include="UserFavoritesService\" />
-    <Folder Include="UserService\" />
     <Folder Include="UserPostService\" />
   </ItemGroup>
 

@@ -8,4 +8,8 @@ namespace French.Data.Entities;
 
 public class Catagory
 {
+    [Key]
+    public int categoryId { get; set; } // Key
+
+    public string name { get; set; } 
 }

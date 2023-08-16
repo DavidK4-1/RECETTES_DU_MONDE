@@ -12,7 +12,6 @@
     <Folder Include="UserFavoritesModels\" />
     <Folder Include="UserPostModels\" />
     <Folder Include="RecipeModels\" />
-    <Folder Include="UserModels\" />
   </ItemGroup>
 
 </Project>
