@@ -9,11 +9,12 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, i
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     /*
     public DbSet<Catagory> Catagories { get; set; }
-    public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<UserFavorite> UserFavorites { get; set; }
     public DbSet<UserPost> UserPosts { get; set; }
     */
+    public DbSet<Ingredient> Ingredients { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
 

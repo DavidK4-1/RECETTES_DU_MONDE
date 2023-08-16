@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace French.Data.Entities;
+namespace French.Models.IngredientModels;
 
-public class Ingredient {
-    [Key]
-    public int IngredientId { get; set; }
+public class IngredientItem {
     [Required, MaxLength(50)]
     public string Name { get; set; }
     [Required, MaxLength(1000)]

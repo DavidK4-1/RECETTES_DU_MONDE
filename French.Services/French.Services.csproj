@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="CatagoryService\" />
-    <Folder Include="IngredientService\" />
     <Folder Include="RecipeService\" />
     <Folder Include="UserFavoritesService\" />
     <Folder Include="UserPostService\" />
