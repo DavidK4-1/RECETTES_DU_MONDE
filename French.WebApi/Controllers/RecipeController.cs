@@ -9,5 +9,8 @@ namespace French.WebApi.Controllers;
     {
         private readonly IRecipeService _recipeService;
 
-        public RecipeController()
+        public RecipeController(IRecipeService recipeService)
+        {
+            _recipeService = recipeService;
+        }
     }
