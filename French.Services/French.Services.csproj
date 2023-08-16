@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <Folder Include="IngredientService\" />
     <Folder Include="RecipeService\" />
     <Folder Include="UserFavoritesService\" />
