@@ -13,16 +13,17 @@ public class UserFavorite
 
     public virtual User UserObj { get; set; } 
 
+    public virtual ICollection<Recipe> ListOfRecipes { get; set; }
+
+    public UserFavorite()
+    {
+        ListOfRecipes = new HashSet<Recipe>();
+    }
+
+    /*
     [ForeignKey("Recipe")]
     public int RecipeId { get; set; }
 
     public virtual Recipe Recipe { get; set; }
-
-
-    //public virtual ICollection<Recipe> ListOfRecipes { get; set; }
-
-    //public UserFavorite()
-    //{
-    //    ListOfRecipes = new HashSet<Recipe>();
-    //}
+    */
 }

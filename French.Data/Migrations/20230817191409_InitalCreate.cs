@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace French.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,49 @@ namespace French.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    IngredientId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.IngredientId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPosts",
+                columns: table => new
+                {
+                    UserPostId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RecipeId = table.Column<int>(type: "int", nullable: false),
+                    ReviewText = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ReviewRating = table.Column<int>(type: "int", nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPosts", x => x.UserPostId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +201,94 @@ namespace French.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserFavorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFavorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserFavorites_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Instruction = table.Column<string>(type: "nvarchar(max)", maxLength: 8000, nullable: false),
+                    UserFavoriteId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.RecipeId);
+                    table.ForeignKey(
+                        name: "FK_Recipes_UserFavorites_UserFavoriteId",
+                        column: x => x.UserFavoriteId,
+                        principalTable: "UserFavorites",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryRecipe",
+                columns: table => new
+                {
+                    ListOfCategorysCategoryId = table.Column<int>(type: "int", nullable: false),
+                    ListOfRecipesRecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryRecipe", x => new { x.ListOfCategorysCategoryId, x.ListOfRecipesRecipeId });
+                    table.ForeignKey(
+                        name: "FK_CategoryRecipe_Categories_ListOfCategorysCategoryId",
+                        column: x => x.ListOfCategorysCategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryRecipe_Recipes_ListOfRecipesRecipeId",
+                        column: x => x.ListOfRecipesRecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "RecipeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IngredientRecipe",
+                columns: table => new
+                {
+                    IngredientsIngredientId = table.Column<int>(type: "int", nullable: false),
+                    RecipeListRecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngredientRecipe", x => new { x.IngredientsIngredientId, x.RecipeListRecipeId });
+                    table.ForeignKey(
+                        name: "FK_IngredientRecipe_Ingredients_IngredientsIngredientId",
+                        column: x => x.IngredientsIngredientId,
+                        principalTable: "Ingredients",
+                        principalColumn: "IngredientId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IngredientRecipe_Recipes_RecipeListRecipeId",
+                        column: x => x.RecipeListRecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "RecipeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -184,6 +315,27 @@ namespace French.Data.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryRecipe_ListOfRecipesRecipeId",
+                table: "CategoryRecipe",
+                column: "ListOfRecipesRecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngredientRecipe_RecipeListRecipeId",
+                table: "IngredientRecipe",
+                column: "RecipeListRecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipes_UserFavoriteId",
+                table: "Recipes",
+                column: "UserFavoriteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFavorites_UserId",
+                table: "UserFavorites",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -217,7 +369,28 @@ namespace French.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoryRecipe");
+
+            migrationBuilder.DropTable(
+                name: "IngredientRecipe");
+
+            migrationBuilder.DropTable(
+                name: "UserPosts");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "Recipes");
+
+            migrationBuilder.DropTable(
+                name: "UserFavorites");
 
             migrationBuilder.DropTable(
                 name: "users");
