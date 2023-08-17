@@ -1,6 +1,7 @@
 ﻿using French.Models.CatagoryModels;
 using French.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using French.Data;
 
 namespace French.Services.CatagoryService;
@@ -10,23 +11,31 @@ public class CategoryService : ICategoryService
     private readonly ApplicationDbContext _context;
     private readonly int _userId;
 
-    public CategoryService(ApplicationDbContext context)
+    public CategoryService(UserManager<User> userManager,
+                           SignInManager<User> signInManager,
+                           ApplicationDbContext context)
     {
+        var currentUser = signInManager.Context.User;
+        var userIdClaim = userManager.GetUserId(currentUser);
+        var hasValidId = int.TryParse(userIdClaim, out _userId);
+
+        if (hasValidId == false)
+            throw new Exception("Attempted to build CategoryService without Id claim. :( ");
         _context = context;
+
     }
 
     public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
     {
-        List<CategoryListItem> category = await _context.Categories
+        List<CategoryListItem> categories = await _context.Categories
             .Where(entity => entity.CategoryId == _userId)
             .Select(entity => new CategoryListItem
             {
-                Id = entity.CategoryId,
                 Name = entity.Name
             })
             .ToListAsync();
 
-        return category;
+        return categories;
     }
 
     public async Task<CategoryListItem?> CreateCategoryAsync(CategoryCreate request)
@@ -35,6 +44,7 @@ public class CategoryService : ICategoryService
         {
             Name = request.Name,
         };
+
         _context.Categories.Add(category);
         var numberOfChanges = await _context.SaveChangesAsync();
 
@@ -43,15 +53,12 @@ public class CategoryService : ICategoryService
 
         CategoryListItem response = new()
         {
-            Id = category.CategoryId,
             Name = category.Name
         };
 
         return response;
     }
         
-
-
 }
 
 

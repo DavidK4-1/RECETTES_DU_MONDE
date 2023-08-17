@@ -22,6 +22,39 @@ namespace French.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CategoryRecipe", b =>
+                {
+                    b.Property<int>("ListOfCategorysCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ListOfRecipesRecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ListOfCategorysCategoryId", "ListOfRecipesRecipeId");
+
+                    b.HasIndex("ListOfRecipesRecipeId");
+
+                    b.ToTable("CategoryRecipe");
+                });
+
+            modelBuilder.Entity("French.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("French.Data.Entities.Ingredient", b =>
                 {
                     b.Property<int>("IngredientId")
@@ -43,6 +76,39 @@ namespace French.Data.Migrations
                     b.HasKey("IngredientId");
 
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("French.Data.Entities.Recipe", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Instruction")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("UserFavoriteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeId");
+
+                    b.HasIndex("UserFavoriteId");
+
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("French.Data.Entities.User", b =>
@@ -111,6 +177,67 @@ namespace French.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("French.Data.Entities.UserFavorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserFavorites");
+                });
+
+            modelBuilder.Entity("French.Data.Entities.UserPost", b =>
+                {
+                    b.Property<int>("UserPostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserPostId"));
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReviewRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("UserPostId");
+
+                    b.ToTable("UserPosts");
+                });
+
+            modelBuilder.Entity("IngredientRecipe", b =>
+                {
+                    b.Property<int>("IngredientsIngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeListRecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IngredientsIngredientId", "RecipeListRecipeId");
+
+                    b.HasIndex("RecipeListRecipeId");
+
+                    b.ToTable("IngredientRecipe");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -250,6 +377,54 @@ namespace French.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CategoryRecipe", b =>
+                {
+                    b.HasOne("French.Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("ListOfCategorysCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("French.Data.Entities.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("ListOfRecipesRecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("French.Data.Entities.Recipe", b =>
+                {
+                    b.HasOne("French.Data.Entities.UserFavorite", null)
+                        .WithMany("ListOfRecipes")
+                        .HasForeignKey("UserFavoriteId");
+                });
+
+            modelBuilder.Entity("French.Data.Entities.UserFavorite", b =>
+                {
+                    b.HasOne("French.Data.Entities.User", "UserObj")
+                        .WithOne("UserFavoriteObj")
+                        .HasForeignKey("French.Data.Entities.UserFavorite", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserObj");
+                });
+
+            modelBuilder.Entity("IngredientRecipe", b =>
+                {
+                    b.HasOne("French.Data.Entities.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsIngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("French.Data.Entities.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("RecipeListRecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -299,6 +474,17 @@ namespace French.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("French.Data.Entities.User", b =>
+                {
+                    b.Navigation("UserFavoriteObj")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("French.Data.Entities.UserFavorite", b =>
+                {
+                    b.Navigation("ListOfRecipes");
                 });
 #pragma warning restore 612, 618
         }
