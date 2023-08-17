@@ -2,6 +2,8 @@ using French.Data;
 using French.Data.Entities;
 using French.Services.TokenService;
 using French.Services.UserService;
+using French.Services.UserFavoritesService;
+using French.Services.CatagoryService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<IUserFavoriteService, UserFavoritesService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 //connection string and db context setup
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
