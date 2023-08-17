@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserFavoriteService, UserFavoritesService>();
+builder.Services.AddScoped<IUserFavoritesService, UserFavoritesService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 //connection string and db context setup
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
