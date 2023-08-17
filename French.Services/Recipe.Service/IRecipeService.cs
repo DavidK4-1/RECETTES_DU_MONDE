@@ -1,12 +1,13 @@
-using French.Models.RecipeModels;
+using French.Models.Recipe;
+using French.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace French.Services.Recipe;
 
 public interface IRecipeService
 {
-    // Task<IEnumerable<RecipeDetails>> GetAllRecipesAsync();
-    Task<bool> CreateRecipe(RecipeCreate request);
-    
+    Task<IEnumerable<RecipeListItems?>> GetAllRecipesAsync();
+    Task<RecipeListItems?> CreateRecipeAsync(RecipeCreate request);
+    Task<List<RecipeListItems?>> GetRecipesByCategoryIdAsync(int categoryId);
     
 }

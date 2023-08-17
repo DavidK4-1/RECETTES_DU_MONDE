@@ -11,7 +11,7 @@ public class UserFavorite
     [ForeignKey("UserObj")]
     public int UserId { get; set; }
 
-    public virtual User UserObj { get; set; } 
+     public virtual User UserObj { get; set; } 
 
     [ForeignKey("Recipe")]
     public int RecipeId { get; set; }

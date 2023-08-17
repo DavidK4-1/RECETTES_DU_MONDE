@@ -20,11 +20,11 @@ public class Recipe
 
     public virtual ICollection<Ingredient> Ingredients { get; set; } = null!;
 
-    public virtual ICollection<Catagory> ListOfCatagorys { get; set; } = null!;
+    public virtual ICollection<Category> ListOfCategorys { get; set; } = null!;
 
     public Recipe()
     {
-        ListOfCatagorys = new HashSet<Catagory>();
+        ListOfCategorys = new HashSet<Category>();
         Ingredients = new HashSet<Ingredient>();
     }
 }
