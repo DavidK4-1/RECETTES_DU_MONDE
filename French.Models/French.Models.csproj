@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <Folder Include="CatagoryModels\" />
-    <Folder Include="IngredientModels\" />
     <Folder Include="UserFavoritesModels\" />
     <Folder Include="UserPostModels\" />
     <Folder Include="RecipeModels\" />
-    <Folder Include="UserModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\French.Data\French.Data.csproj" />
   </ItemGroup>
 
 </Project>

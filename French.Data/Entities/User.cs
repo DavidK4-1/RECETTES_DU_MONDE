@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace French.Data.Entities;
 
-public class User
-{
+public class User : IdentityUser<int> {
+    //comment before migrations for now
+    public virtual UserFavorite UserFavoriteObj { get; set; }
 }
