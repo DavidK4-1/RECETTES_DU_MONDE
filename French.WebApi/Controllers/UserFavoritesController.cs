@@ -1,3 +1,4 @@
+using French.Models.Responces;
 using French.Services.TokenService;
 using French.Services.UserFavoritesService;
 using French.Services.UserService;
@@ -33,6 +34,16 @@ public class UserFavoritesController : ControllerBase
     {
         var favorites = await _userFavoritesService.GetAllFavoritesAsync();
         return Ok(favorites); //Return Favorites
+    }
+
+    [HttpPut("{FavoriteId}/{recipeId}")]
+    public async Task<IActionResult> AddRecipeToFavorites([FromRoute]int favoriteId, [FromRoute]int recipeId)
+    {
+        var response = await _userFavoritesService.AddRecipeToFavoritesAsync(favoriteId, recipeId);
+        if (response)
+            return Ok(response);
+
+        return BadRequest(new TextResponse("Could not add recipe to favorites!"));
     }
 
 }

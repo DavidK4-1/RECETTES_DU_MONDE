@@ -7,7 +7,7 @@ namespace French.Data.Entities;
 public class UserFavorite
 {
     [Key]
-    public int Id { get; set; }
+    public int FavoriteId { get; set; }
 
     [ForeignKey("UserObj")]
     public int UserId { get; set; }
