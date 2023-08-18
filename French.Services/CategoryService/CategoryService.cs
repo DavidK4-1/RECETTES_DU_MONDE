@@ -58,7 +58,20 @@ public class CategoryService : ICategoryService
 
         return response;
     }
-        
+
+
+
+    //create PUT method to append and update
+    public async Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId)
+    {
+
+        var category = await _context.Categories.FindAsync(categoryId);
+        var recipe = await _context.Recipes.FindAsync(recipeId);
+        recipe?.ListOfCategorys.Add(category);
+        return await _context.SaveChangesAsync() == 1; 
+    }
+
+
 }
 
 

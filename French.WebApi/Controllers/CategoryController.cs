@@ -42,6 +42,14 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
 
+    [HttpPut("{categoryId}/{recipeId}")]
+    public async Task<IActionResult> AddCategoryToRecipe([FromRoute]int categoryId, [FromRoute]int recipeId)
+    {
+        var response = await _categoryService.AddCategoryToRecipeAsync(categoryId, recipeId);
+        if (response)
+            return Ok(response);
 
+        return BadRequest(new TextResponse("Could not add category to recipe!"));
+    }
 }
 

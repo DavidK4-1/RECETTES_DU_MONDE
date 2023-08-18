@@ -9,6 +9,9 @@ namespace French.Services.CatagoryService
 
 		Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync();
 
-	}
+		Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId);
+
+
+    }
 }
 
