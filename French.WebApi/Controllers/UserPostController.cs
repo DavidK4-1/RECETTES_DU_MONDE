@@ -1,10 +1,12 @@
 using French.Models.Responces;
 using French.Models.UserPostModels;
 using French.Services.UserPostService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserPostController : ControllerBase
