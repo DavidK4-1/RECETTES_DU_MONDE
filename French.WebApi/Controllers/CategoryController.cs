@@ -1,4 +1,5 @@
 
+
 using French.Data.Entities;
 using French.Models.CatagoryModels;
 using French.Models.Responces;
@@ -50,7 +51,5 @@ public class CategoryController : ControllerBase
 
         return BadRequest(new TextResponse("Could not add category to recipe!"));
     }
-
-
 }
 

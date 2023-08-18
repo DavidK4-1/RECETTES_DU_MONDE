@@ -1,4 +1,3 @@
-
 using French.Services.TokenService;
 using French.Services.UserFavoritesService;
 using French.Services.UserService;
@@ -35,5 +34,6 @@ public class UserFavoritesController : ControllerBase
         var favorites = await _userFavoritesService.GetAllFavoritesAsync();
         return Ok(favorites); //Return Favorites
     }
+
 }
 

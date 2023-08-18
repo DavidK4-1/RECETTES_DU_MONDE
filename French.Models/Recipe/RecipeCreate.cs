@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace French.Models.RecipeModels;
+namespace French.Models.Recipe;
 
 public class RecipeCreate
 {
@@ -17,5 +17,7 @@ public class RecipeCreate
     [MaxLength(8000, ErrorMessage = "{0} must be no more than {1} characters long.")]
     public string Instruction { get; set; } = string.Empty;
 
-    
+    public int [] IngredientKeys { get; set; } = null!;
+
+    public int [] CategorysKeys { get; set; } = null!;
 }
