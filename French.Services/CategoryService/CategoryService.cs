@@ -15,20 +15,21 @@ public class CategoryService : ICategoryService
                            SignInManager<User> signInManager,
                            ApplicationDbContext context)
     {
+        /*
         var currentUser = signInManager.Context.User;
         var userIdClaim = userManager.GetUserId(currentUser);
         var hasValidId = int.TryParse(userIdClaim, out _userId);
 
         if (hasValidId == false)
             throw new Exception("Attempted to build CategoryService without Id claim. :( ");
+        */
         _context = context;
 
     }
-
+    // WHY _USID?
     public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
     {
         List<CategoryListItem> categories = await _context.Categories
-            .Where(entity => entity.CategoryId == _userId)
             .Select(entity => new CategoryListItem
             {
                 Name = entity.Name
