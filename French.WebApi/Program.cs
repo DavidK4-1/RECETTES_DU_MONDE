@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using French.Services.Recipe;
+using French.Services.IngredientService;
+using French.Services.UserPostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +26,6 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IUserPostService, UserPostService>();
-
 
 //connection string and db context setup
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
