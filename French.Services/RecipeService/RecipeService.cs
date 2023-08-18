@@ -34,6 +34,7 @@ public class RecipeService : IRecipeService
     }
 
     public async Task<bool> CreateRecipeAsync(RecipeCreate request)
+
     {
         French.Data.Entities.Recipe entity = new()
         {
@@ -44,6 +45,7 @@ public class RecipeService : IRecipeService
 
         _dbContext.Recipes.Add(entity);
         var numberOfChanges = await _dbContext.SaveChangesAsync();
+
         // Loop through 
 
         if (numberOfChanges != 1)
@@ -57,9 +59,8 @@ public class RecipeService : IRecipeService
 
             if(ingredient is not null)
                 recipe.Entity.Ingredients.Add(ingredient);
-            
-
         }
+        
         numberOfChanges = await _dbContext.SaveChangesAsync();
 
         if (numberOfChanges != 1)

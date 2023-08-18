@@ -11,6 +11,8 @@ public class UserPost
     [ForeignKey("Recipe")]
     public int RecipeId { get; set; }
 
+    public virtual Recipe Recipe { get; set; }
+
     [MaxLength(100)]
     public string ReviewText { get; set; } = string.Empty;
 

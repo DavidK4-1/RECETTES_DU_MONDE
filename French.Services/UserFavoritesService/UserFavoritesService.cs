@@ -31,6 +31,18 @@ public class UserFavoritesService : IUserFavoritesService
         }
     }
 
+/*
+    public async Task<FavoritesListItem> CreateUserFavoriteAsync()
+    {
+        UserFavorite favorite = new()
+        {
+            UserId = _userId,
+        };
+
+        _context.UserFavorites.Add(favorite);
+        var nuberOfChanges = await _context.SaveChangesAsync();
+    }
+*/
     public async Task<bool> CreateUserFavoriteAsync()
     {
         UserFavorite favorite = new()
@@ -42,7 +54,6 @@ public class UserFavoritesService : IUserFavoritesService
         return await _context.SaveChangesAsync() == 1;
 
     }
-
     public async Task<IEnumerable<FavoritesListItem>> GetAllFavoritesAsync()
     {
         List<FavoritesListItem> favorites = await _context.UserFavorites

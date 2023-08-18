@@ -18,6 +18,6 @@ public class RecipeCreate
     public string Instruction { get; set; } = string.Empty;
 
     public int [] IngredientKeys { get; set; } = null!;
-
+  
    // public int [] CategorysKeys { get; set; } = null!;
 }
