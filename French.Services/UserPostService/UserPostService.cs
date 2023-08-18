@@ -27,4 +27,15 @@ public class UserPostService : IUserPostService
         _dbContext.UserPosts.Add(userPost);
         return await _dbContext.SaveChangesAsync() == 1;
     }
+
+    public async Task<bool> DeleteUserPostAsync(int userPostId)
+    {
+        var userPost = await _dbContext.UserPosts.FindAsync(userPostId);
+
+        if (userPost?.UserPostId != userPostId)
+            return false;
+
+        _dbContext.UserPosts.Remove(userPost);
+        return await _dbContext.SaveChangesAsync() == 1;
+    }
 }

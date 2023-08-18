@@ -33,7 +33,8 @@ public class RecipeService : IRecipeService
         return recipes;
     }
 
-    public async Task<RecipeListItems?> CreateRecipeAsync(RecipeCreate request)
+    public async Task<bool> CreateRecipeAsync(RecipeCreate request)
+
     {
         French.Data.Entities.Recipe entity = new()
         {
@@ -44,10 +45,11 @@ public class RecipeService : IRecipeService
 
         _dbContext.Recipes.Add(entity);
         var numberOfChanges = await _dbContext.SaveChangesAsync();
+
         // Loop through 
 
         if (numberOfChanges != 1)
-            return null;
+            return false;
 
         var recipe =  _dbContext.Recipes.Entry(entity);
 
@@ -57,32 +59,14 @@ public class RecipeService : IRecipeService
 
             if(ingredient is not null)
                 recipe.Entity.Ingredients.Add(ingredient);
-            
-
         }
+        
         numberOfChanges = await _dbContext.SaveChangesAsync();
 
         if (numberOfChanges != 1)
-            return null;
+            return false;
 
-        /*
-        foreach(var c in request.CategorysKeys)
-        {
-            var category = await _dbContext.Categories.FindAsync(c);
-
-            if(category is not null)
-                entity.ListOfCategorys.Add(category);
-        }
-        */
-
-        RecipeListItems response = new()
-        {
-            RecipeId = entity.RecipeId,
-            Title = entity.Title,
-            Description = entity.Description,
-            Ingredients = recipe.Entity.Ingredients.ToArray()
-        };
-        return response;
+        return true;
     }
 
 
