@@ -22,7 +22,7 @@ public class UserService : IUserService {
 
         //cheak if a user is signed in 
         var currUser = signInManager.Context.User;
-        if (currUser.Identity.Name is not null) { 
+        if (currUser.Identity?.Name is not null) { 
             //retreve an id if signed in (put it into a private field)
             var userIdClaim = userManager.GetUserId(currUser);
             if (!int.TryParse(userIdClaim, out _userId))

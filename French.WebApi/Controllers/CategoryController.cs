@@ -1,5 +1,3 @@
-
-
 using French.Data.Entities;
 using French.Models.CatagoryModels;
 using French.Models.Responces;

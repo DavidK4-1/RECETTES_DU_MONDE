@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace French.Data.Entities;
@@ -11,6 +11,7 @@ public class UserFavorite
 
     [ForeignKey("UserObj")]
     public int UserId { get; set; }
+
     public virtual User UserObj { get; set; } 
 
     public virtual ICollection<Recipe> ListOfRecipes { get; set; }
@@ -19,11 +20,4 @@ public class UserFavorite
     {
         ListOfRecipes = new HashSet<Recipe>();
     }
-
-    /*
-    [ForeignKey("Recipe")]
-    public int RecipeId { get; set; }
-
-    public virtual Recipe Recipe { get; set; }
-    */
 }
