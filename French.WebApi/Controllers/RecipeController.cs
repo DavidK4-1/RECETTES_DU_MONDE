@@ -31,7 +31,7 @@ namespace French.WebApi.Controllers;
                 return BadRequest(ModelState);
 
             var response = await _recipeService.CreateRecipeAsync(request);
-            if (response is not null)
+            if (response)
                 return Ok(Response);
 
             return BadRequest(new TextResponse("Could not create Recipe"));
