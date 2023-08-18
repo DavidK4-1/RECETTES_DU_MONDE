@@ -19,5 +19,5 @@ public class RecipeCreate
 
     public int [] IngredientKeys { get; set; } = null!;
 
-    public int [] CategorysKeys { get; set; } = null!;
+//  public int [] CategorysKeys { get; set; } = null!;
 }

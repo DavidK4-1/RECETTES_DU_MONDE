@@ -32,7 +32,7 @@ public class RecipeService : IRecipeService
 
         return recipes;
     }
-
+    // Maybe change to Int rather than Null Check...
     public async Task<RecipeListItems?> CreateRecipeAsync(RecipeCreate request)
     {
         French.Data.Entities.Recipe entity = new()
@@ -44,17 +44,26 @@ public class RecipeService : IRecipeService
 
         _dbContext.Recipes.Add(entity);
         var numberOfChanges = await _dbContext.SaveChangesAsync();
-        // Loop through 
-        foreach(var i in request.IngredientKeys)
+        // Loop through
+
+        if (numberOfChanges != 1)
+            return null;
+
+        var recipe =  _dbContext.Recipes.Entry(entity);
+        
+        foreach (var i in request.IngredientKeys)
         {
             var ingredient = await _dbContext.Ingredients.FindAsync(i);
 
-            if(ingredient is not null)
-                entity.Ingredients.Add(ingredient);
-            
-
+            if (ingredient is not null)
+                recipe.Entity.Ingredients.Add(ingredient);
         }
+        numberOfChanges = await _dbContext.SaveChangesAsync();
 
+        if (numberOfChanges != 1)
+            return null;
+
+        /*
         foreach(var c in request.CategorysKeys)
         {
             var category = await _dbContext.Categories.FindAsync(c);
@@ -62,16 +71,14 @@ public class RecipeService : IRecipeService
             if(category is not null)
                 entity.ListOfCategorys.Add(category);
         }
-
-        if (numberOfChanges != 1)
-            return null;
+        */
 
         RecipeListItems response = new()
         {
             RecipeId = entity.RecipeId,
             Title = entity.Title,
             Description = entity.Description,
-            Ingredients = entity.Ingredients.ToArray()
+            Ingredients = recipe.Entity.Ingredients.ToArray()
         };
         return response;
     }
