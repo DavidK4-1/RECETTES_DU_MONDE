@@ -9,7 +9,8 @@ namespace French.Services.UserFavoritesService
 
         //Task<FavoritesListItem?> AddRecipeToFavoritesAsync(int recipeId, int userId);
 
-        Task<bool> CreateUserFavoriteAsync();
+         Task<bool> CreateUserFavoriteAsync();
+        //Task<FavoritesListItem?> CreateUserFavoriteAsync();
 
     }
 }
