@@ -9,5 +9,5 @@ public interface IRecipeService
     Task<IEnumerable<RecipeListItems?>> GetAllRecipesAsync();
     Task<RecipeListItems?> CreateRecipeAsync(RecipeCreate request);
     Task<List<RecipeListItems?>> GetRecipesByCategoryIdAsync(int categoryId);
-    
+    Task<bool> DeleteRecipeAsync(int recipeId);
 }

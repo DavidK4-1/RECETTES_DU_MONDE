@@ -101,4 +101,15 @@ public class RecipeService : IRecipeService
         }
         return recipesList;
     }
+
+    public async Task<bool> DeleteRecipeAsync(int recipeId)
+    {
+        var recipe = await _dbContext.Recipes.FindAsync(recipeId);
+
+        if (recipe?.RecipeId != recipeId)
+            return false;
+
+        _dbContext.Recipes.Remove(recipe);
+        return await _dbContext.SaveChangesAsync() == 1;
+    }
 }

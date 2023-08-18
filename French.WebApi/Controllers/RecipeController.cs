@@ -1,3 +1,4 @@
+using French.Data.Entities;
 using French.Models.Recipe;
 using French.Models.Responces;
 using French.Services.Recipe;
@@ -36,13 +37,21 @@ namespace French.WebApi.Controllers;
             return BadRequest(new TextResponse("Could not create Recipe"));
         }
 
-       /* [HttpGet("{categoryId:int}")]
-        public async Task<IActionResult> GetRecipeByCategoryId([FromRoute] int recipeId)
+        [HttpGet("{categoryId:int}")]
+        public async Task<IActionResult> GetRecipeByCategoryId([FromRoute] int categoryId)
         {
-            RecipeDetail? detail = await _recipeService.GetRecipesByCategoryIdAsync(categoryId);
+            var detail = await _recipeService.GetRecipesByCategoryIdAsync(categoryId);
             return detail is not null
                 ? Ok(detail)
                 : NotFound();
         }
-        */
+
+        [HttpDelete("{recipeId:int}")]
+        public async Task<IActionResult> DeleteRecipe([FromRoute] int recipeId)
+        {
+            return await _recipeService.DeleteRecipeAsync(recipeId)
+                ? Ok($"Recipe {recipeId} was deleted successfully.")
+                : BadRequest($"Recipe {recipeId} could not be deleted.");
+        }
+        
     }

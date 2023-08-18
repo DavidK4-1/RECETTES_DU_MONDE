@@ -14,4 +14,6 @@ public class RecipeListItems
     public Ingredient [] Ingredients { get; set; } = null!;
 
     public Category [] Categorys { get; set; } = null!;
+
+
 }
