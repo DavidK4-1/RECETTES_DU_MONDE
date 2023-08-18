@@ -1,4 +1,5 @@
 
+
 using French.Data.Entities;
 using French.Models.CatagoryModels;
 using French.Models.Responces;
@@ -40,6 +41,7 @@ public class CategoryController : ControllerBase
         var categories = await _categoryService.GetAllCategoriesAsync();
         return Ok(categories);
     }
+
 
 }
 

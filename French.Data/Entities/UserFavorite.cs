@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace French.Data.Entities;
@@ -10,7 +11,6 @@ public class UserFavorite
 
     [ForeignKey("UserObj")]
     public int UserId { get; set; }
-
     public virtual User UserObj { get; set; } 
 
     public virtual ICollection<Recipe> ListOfRecipes { get; set; }

@@ -13,4 +13,8 @@
     <Folder Include="RecipeModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\French.Data\French.Data.csproj" />
+  </ItemGroup>
+
 </Project>
