@@ -43,7 +43,7 @@ public class UserFavoritesService : IUserFavoritesService
         var nuberOfChanges = await _context.SaveChangesAsync();
     }
 */
-    public async Task<bool> CreateUserFavoriteAsync(int _userId)
+    public async Task<bool> CreateUserFavoriteAsync()
     {
         UserFavorite favorite = new()
         {
