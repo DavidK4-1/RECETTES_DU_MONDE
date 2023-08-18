@@ -4,6 +4,9 @@ using French.Services.TokenService;
 using French.Services.UserService;
 using French.Services.UserFavoritesService;
 using French.Services.CatagoryService;
+using French.Services.Recipe;
+using French.Services.IngredientService;
+using French.Services.UserPostService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +20,10 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserFavoritesService, UserFavoritesService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
+builder.Services.AddScoped<IUserPostService, UserPostService>();
+
 
 //connection string and db context setup
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
