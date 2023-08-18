@@ -49,6 +49,24 @@ public class UserService : IUserService {
         
         return registerResult.Succeeded;
     }
+    public async Task<bool> UpdateUserAsync(UserUpdate model) {
+        if (!await CheakEmailAvailabilityAsync(model.Email))
+        {
+            Console.WriteLine("Invalid email");
+            return false;
+        }
+        if (!await CheakUserNameAvailibilityAsync(model.UserName))
+        {
+            Console.WriteLine("Invalid username");
+            return false;
+        }
+
+        var userEntity = await _context.Users.FindAsync(_userId);
+        userEntity.Email = model.Email;
+        userEntity.UserName = model.UserName;
+        
+        return (await _userManager.UpdateAsync(userEntity)).Succeeded;
+    }
     public async Task<bool> DeleteUserAsync() {
         var userEntity = await _context.Users.FindAsync(_userId);
         if (userEntity?.Id != _userId)

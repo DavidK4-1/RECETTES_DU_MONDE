@@ -34,13 +34,13 @@ public class UserController : ControllerBase {
                                                          Paste the token value you got back in your response body into the new input field labeled Token
     */
 
-    //TODO ENDPOINT &&& UserUpdate <- class
-    //[Authorize, HttpPut("Update")]
-    //public async Task<IActionResult> UpdateUserAsync([FromBody] UserUpdate update) { 
-       // if (!ModelState.IsValid)
-            //return BadRequest(ModelState);
+    [Authorize, HttpPut("update")]
+    public async Task<IActionResult> UpdateUserAsync([FromBody] UserUpdate update) { 
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-    //}
+        return await _userService.UpdateUserAsync(update) ? Ok("updated"): BadRequest("Update Failed");
+    }
 
     [Authorize, HttpDelete("Delete")]
     public async Task<IActionResult> DeleteUserAsync() 
