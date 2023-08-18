@@ -1,22 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using French.Services.TokenService;
 using French.Services.UserFavoritesService;
-using Microsoft.AspNetCore.Http;
+using French.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace French.WebApi.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserFavoritesController : ControllerBase
-    {
-        private readonly IUserFavoriteService _userFavoritesService;
+namespace French.WebApi.Controllers;
 
-        public UserFavoritesController(IUserFavoriteService UserFavoritesService)
-        {
-            _userFavoritesService = UserFavoritesService;
-        }
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class UserFavoritesController : ControllerBase
+{
+    private readonly IUserService _userService;
+    private readonly ITokenService _tokenService;
+    private readonly IUserFavoritesService _userFavoritesService;
+
+    public UserFavoritesController(IUserFavoritesService UserFavoritesService, ITokenService tokenService)
+    {
+        _userFavoritesService = UserFavoritesService;
+        _tokenService = tokenService;
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateUserFavoriteAsync()
+    {
+        var userFavorite = await _userFavoritesService.CreateUserFavoriteAsync();
+        return Ok(userFavorite);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllFavorites()
+    {
+        var favorites = await _userFavoritesService.GetAllFavoritesAsync();
+        return Ok(favorites); //Return Favorites
+    }
+
 }
+

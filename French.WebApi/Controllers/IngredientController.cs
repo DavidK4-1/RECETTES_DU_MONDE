@@ -26,8 +26,9 @@ public class IngredientController : ControllerBase {
         return await _ingredientService.CreateIngredientAsync(model) ? Ok(new TextResponse("User was registered"))
                                                                      : BadRequest(new TextResponse("User could not be registered"));
     }
+    /*
     //get ingredient by id
     [HttpGet("{Id:int}")]
     public async Task<IActionResult> GetIngredientById([FromRoute] int ingredientId) 
-        => 
+    */ 
 }
