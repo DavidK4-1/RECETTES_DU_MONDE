@@ -39,6 +39,10 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
 
+   //[HttpGet]
+   // public async Task<IActionResult> SearchRecipesByCategory();
+
+
     [HttpPut("{categoryId}/{recipeId}")]
     public async Task<IActionResult> AddCategoryToRecipe([FromRoute]int categoryId, [FromRoute]int recipeId)
     {
