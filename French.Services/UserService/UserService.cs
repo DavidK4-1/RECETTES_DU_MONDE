@@ -22,7 +22,7 @@ public class UserService : IUserService {
 
         //cheak if a user is signed in 
         var currUser = signInManager.Context.User;
-        if (currUser.Identity.Name is not null) { 
+        if (currUser.Identity?.Name is not null) { 
             //retreve an id if signed in (put it into a private field)
             var userIdClaim = userManager.GetUserId(currUser);
             if (!int.TryParse(userIdClaim, out _userId))
@@ -49,6 +49,11 @@ public class UserService : IUserService {
         
         return registerResult.Succeeded;
     }
+    /*
+    public async Task<bool> UpdateUserAsync(UserUpdate model) {
+        
+    }
+    */
     public async Task<bool> DeleteUserAsync() {
         var userEntity = await _context.Users.FindAsync(_userId);
         if (userEntity?.Id != _userId)

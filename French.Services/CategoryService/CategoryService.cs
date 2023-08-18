@@ -21,7 +21,6 @@ public class CategoryService : ICategoryService
             .Where(entity => entity.CategoryId == _userId)
             .Select(entity => new CategoryListItem
             {
-                Id = entity.CategoryId,
                 Name = entity.Name
             })
             .ToListAsync();
@@ -43,7 +42,6 @@ public class CategoryService : ICategoryService
 
         CategoryListItem response = new()
         {
-            Id = category.CategoryId,
             Name = category.Name
         };
 
