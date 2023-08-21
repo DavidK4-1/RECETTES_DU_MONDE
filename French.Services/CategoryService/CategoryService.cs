@@ -59,6 +59,17 @@ public class CategoryService : ICategoryService
         return await _context.SaveChangesAsync() == 1; 
     }
 
+    public async Task<bool> DeleteCategoryAsync(int categoryId)
+    {
+        var category = await _context.Categories.FindAsync(categoryId);
+
+        if (category?.CategoryId != categoryId)
+            return false;
+
+        _context.Categories.Remove(category);
+        return await _context.SaveChangesAsync() == 1;
+    }
+
 }
 
 

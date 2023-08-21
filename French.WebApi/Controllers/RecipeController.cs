@@ -32,7 +32,7 @@ namespace French.WebApi.Controllers;
 
             var response = await _recipeService.CreateRecipeAsync(request);
             if (response)
-                return Ok(Response);
+                return Ok(response);
 
             return BadRequest(new TextResponse("Could not create Recipe"));
         }

@@ -11,7 +11,7 @@ namespace French.Services.CatagoryService
 
 		Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId);
 
-
+		Task<bool> DeleteCategoryAsync(int categoryId);
     }
 }
 

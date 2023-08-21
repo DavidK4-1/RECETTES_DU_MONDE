@@ -39,9 +39,6 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
 
-   //[HttpGet]
-   // public async Task<IActionResult> SearchRecipesByCategory();
-
 
     [HttpPut("{categoryId}/{recipeId}")]
     public async Task<IActionResult> AddCategoryToRecipe([FromRoute]int categoryId, [FromRoute]int recipeId)
@@ -51,6 +48,14 @@ public class CategoryController : ControllerBase
             return Ok(response);
 
         return BadRequest(new TextResponse("Could not add category to recipe!"));
+    }
+
+    [HttpDelete("{categoryId:int}")]
+    public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
+    {
+        return await _categoryService.DeleteCategoryAsync(categoryId)
+            ? Ok($"Category {categoryId} was deleted.")
+            : BadRequest($"Uh-oh! Category {categoryId} was not deleted!");
     }
 }
 

@@ -12,14 +12,15 @@ namespace French.WebApi.Controllers;
 [ApiController]
 public class UserFavoritesController : ControllerBase
 {
-    private readonly IUserService _userService;
-    private readonly ITokenService _tokenService;
+ //   private readonly IUserService _userService;
+ //   private readonly ITokenService _tokenService;
     private readonly IUserFavoritesService _userFavoritesService;
 
     public UserFavoritesController(IUserFavoritesService UserFavoritesService, ITokenService tokenService)
     {
         _userFavoritesService = UserFavoritesService;
-        _tokenService = tokenService;
+    //    _tokenService = tokenService;
+     //   _userService = userService;
     }
 
     [HttpPost]
@@ -36,14 +37,22 @@ public class UserFavoritesController : ControllerBase
         return Ok(favorites); //Return Favorites
     }
 
-    [HttpPut("{FavoriteId}/{recipeId}")]
-    public async Task<IActionResult> AddRecipeToFavorites([FromRoute]int favoriteId, [FromRoute]int recipeId)
+    [HttpPut("{recipeId}")]
+    public async Task<IActionResult> AddRecipeToFavorites([FromRoute]int recipeId)
     {
-        var response = await _userFavoritesService.AddRecipeToFavoritesAsync(favoriteId, recipeId);
+        var response = await _userFavoritesService.AddRecipeToFavoritesAsync(recipeId);
         if (response)
             return Ok(response);
 
         return BadRequest(new TextResponse("Could not add recipe to favorites!"));
+    }
+
+    [HttpDelete("{FavoriteId:int}")]
+    public async Task<IActionResult> DeleteFavorite([FromRoute] int FavoriteId)
+    {
+        return await _userFavoritesService.DeleteUserFavoriteAsync(FavoriteId)
+            ? Ok($"Favorite {FavoriteId} was deleted successfully.")
+            : BadRequest($"Favorite {FavoriteId} could NOT be deleted!");
     }
 
 }
