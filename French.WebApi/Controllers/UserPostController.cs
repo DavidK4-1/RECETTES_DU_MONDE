@@ -31,6 +31,15 @@ namespace French.WebApi.Controllers;
             return BadRequest(new TextResponse("Post failed to be created."));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUserPostsByRecipe([FromRoute] int recipeId)
+        {
+            var posts = await _userPostService.GetUserPostsByRecipeAsync(recipeId);
+            return posts is not null
+                ? Ok(posts)
+                : NotFound();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteUserPost([FromRoute] int userPostId)
         {
