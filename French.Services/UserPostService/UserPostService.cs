@@ -40,6 +40,17 @@ public class UserPostService : IUserPostService
         return await _dbContext.SaveChangesAsync() == 1;
     }
 
+    public async Task<bool> DeleteUserPostsByRecipeAsync(int recipeId)
+    {
+        var userPostList = await GetUserPostsByRecipeAsync(recipeId);
+
+        foreach(var userPost in userPostList)
+        {
+            await DeleteUserPostAsync(userPost.UserPostId);
+        }
+        return true;
+    }
+
     public async Task<List<UserPost>> GetUserPostsByRecipeAsync(int recipeId)
     {
         List<UserPost> userPostList = new List<UserPost>();
