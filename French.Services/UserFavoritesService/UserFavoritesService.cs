@@ -1,5 +1,7 @@
-﻿using French.Data;
+﻿using System.Linq;
+using French.Data;
 using French.Data.Entities;
+using French.Models.Recipe;
 using French.Models.UserFavoritesModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,33 +37,59 @@ public class UserFavoritesService : IUserFavoritesService
     {
         UserFavorite favorite = new()
         {
-            FavoriteId = _userId,
+            UserId = _userId,
         };
 
         _context.UserFavorites.Add(favorite);
-        return await _context.SaveChangesAsync() == 1;
+
+        var check = await _context.SaveChangesAsync();
+
+        return check == 1;
 
     }
-    public async Task<IEnumerable<FavoritesListItem>> GetAllFavoritesAsync()
+
+    public async Task<List<RecipeDetail>> GetAllUserFavoritesAsync()
     {
-        List<FavoritesListItem> favorites = await _context.UserFavorites
-            .Where(entity => entity.FavoriteId == _userId)
-            .Select(entity => new FavoritesListItem
-            {
-                Id = entity.FavoriteId
-            })
+        var user = await _context.UserFavorites
+            .Where(e => e.UserId == _userId)
+            .Include(l => l.ListOfRecipes)
             .ToListAsync();
 
-        return favorites;
+        var returnList = new List<RecipeDetail>();
+
+        foreach (var recipe in user[0].ListOfRecipes)
+        {
+            RecipeDetail entry = new()
+            {
+                RecipeId = recipe.RecipeId,
+                Title = recipe.Title,
+                Description = recipe.Description,
+                Instruction = recipe.Instruction
+            };
+            returnList.Add(entry);
+        }
+        return returnList;
     }
 
-    public async Task<bool> AddRecipeToFavoritesAsync(int favoriteId, int recipeId)
+    public async Task<bool> AddRecipeToFavoritesAsync(int recipeId)
     {
-        var favorite = await _context.UserFavorites.FindAsync(favoriteId);
+        var userfavorite = await _context.UserFavorites.FindAsync(_userId);
         var recipe = await _context.Recipes.FindAsync(recipeId);
-        favorite?.ListOfRecipes.Add(recipe);
-        return await _context.SaveChangesAsync() == 1;
+        userfavorite.ListOfRecipes.Add(recipe);
+        var count = await _context.SaveChangesAsync();
+        return count == 1;
 
+    }
+
+    public async Task<bool> DeleteUserFavoriteAsync(int FavoriteId)
+    {
+        var favorite = await _context.UserFavorites.FindAsync(FavoriteId);
+
+        if (favorite?.UserId != FavoriteId)
+            return false;
+
+        _context.UserFavorites.Remove(favorite);
+        return await _context.SaveChangesAsync() == 1;
     }
 }
 

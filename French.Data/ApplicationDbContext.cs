@@ -18,5 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, i
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>().ToTable("users");
+
+     // modelBuilder.Entity<UserFavorite>().ToTable("UserFavorite");
     }
 }
