@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5913ab396e401f0f66b674ae46aadeeec05605cf
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]

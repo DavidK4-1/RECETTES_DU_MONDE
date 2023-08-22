@@ -12,9 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using French.Services.Recipe;
-using French.Services.IngredientService;
-using French.Services.UserPostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
