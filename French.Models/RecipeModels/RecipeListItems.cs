@@ -11,7 +11,7 @@ public class RecipeListItems
 
     public ICollection<French.Data.Entities.Category> ListOfCategorys { get; set; } = null!;
 
-    public Ingredient [] Ingredients { get; set; } = null!;
+    public Ingredient [] Ingredients { get; set; } = null!; //Maybe remove 
 
     public Category [] Categorys { get; set; } = null!;
 
