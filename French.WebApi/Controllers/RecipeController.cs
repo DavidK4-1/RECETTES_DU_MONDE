@@ -54,4 +54,12 @@ namespace French.WebApi.Controllers;
                 : BadRequest($"Recipe {recipeId} could not be deleted.");
         }
         
+        [HttpGet("id:int")]
+        public async Task<IActionResult> GetRecipesByIngredientId([FromRoute] int id)
+        {
+            var detail = await _recipeService.GetRecipesByIngredientIdAsync(id);
+            return detail is not null
+            ? Ok(detail)
+            : NotFound();
+        }
     }
