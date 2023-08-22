@@ -22,9 +22,13 @@ public class Recipe
 
     public virtual ICollection<Category> ListOfCategorys { get; set; } = null!;
 
+    public virtual ICollection<UserFavorite> UserFavorites { get; set; } = null!;
+    public ICollection<Category> ListOfIngredients { get; set; }
+
     public Recipe()
     {
         ListOfCategorys = new HashSet<Category>();
         Ingredients = new HashSet<Ingredient>();
+        UserFavorites = new HashSet<UserFavorite>();
     }
 }

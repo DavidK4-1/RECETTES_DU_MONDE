@@ -62,4 +62,13 @@ namespace French.WebApi.Controllers;
             ? Ok(detail)
             : NotFound();
         }
+
+        [HttpGet("recipeId:int")]
+        public async Task<IActionResult> GetRecipeByRecipeId([FromRoute] int recipeId)
+        {
+            var detail = await _recipeService.GetRecipeByRecipeIdAsync(recipeId);
+            return detail is not null
+            ? Ok(detail)
+            : NotFound();
+        }
     }

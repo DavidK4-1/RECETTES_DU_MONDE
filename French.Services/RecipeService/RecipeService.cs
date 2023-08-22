@@ -106,15 +106,18 @@ public class RecipeService : IRecipeService
         return await _dbContext.SaveChangesAsync() == 1;
     }
 
-    public async Task<List<RecipeDetail>> GetRecipeByIngredientIdAsync(int id)
+    public async Task<List<RecipeDetail>> GetRecipesByIngredientIdAsync(int id)
     {
         List<RecipeDetail> ret = new();
+        _dbContext.Categories.Load();
         foreach (var recipe in _dbContext.Recipes)
         {
+            
             foreach (var item in recipe.Ingredients)
             {
                 if (item.IngredientId == id)
                 {
+
                     ret.Add(new RecipeDetail()
                     {
                         Instruction = recipe.Instruction,
@@ -129,4 +132,24 @@ public class RecipeService : IRecipeService
 
         return ret;
     }
+
+    public async Task<RecipeDetail?> GetRecipeByRecipeIdAsync(int recipeId)
+    {
+        var recipe = await _dbContext.Recipes
+            .FirstOrDefaultAsync(r =>
+                r.RecipeId == recipeId);
+
+        return recipe is null
+        ? null
+        : new RecipeDetail
+        {
+            RecipeId = recipe.RecipeId,
+            Title = recipe.Title,
+            Description = recipe.Description,
+            Instruction = recipe.Instruction,
+            ListOfIngredients = (ICollection<Ingredient>)recipe.ListOfIngredients
+        };
+
+    }
+
 }

@@ -7,5 +7,7 @@ namespace French.Models.Recipe
         public string Description { get; set; } = string.Empty;
 
         public string Instruction { get; set; } = string.Empty;
+
+        public ICollection<French.Data.Entities.Ingredient> ListOfIngredients { get; set; } = null!;
     }
 }
