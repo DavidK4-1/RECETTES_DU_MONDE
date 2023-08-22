@@ -1,7 +1,6 @@
 ﻿using French.Models.CatagoryModels;
 using French.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using French.Data;
 
 namespace French.Services.CatagoryService;
@@ -9,29 +8,19 @@ namespace French.Services.CatagoryService;
 public class CategoryService : ICategoryService
 {
     private readonly ApplicationDbContext _context;
-    private readonly int _userId;
 
-    public CategoryService(UserManager<User> userManager,
-                           SignInManager<User> signInManager,
-                           ApplicationDbContext context)
+    public CategoryService(ApplicationDbContext context)
     {
-        var currentUser = signInManager.Context.User;
-        var userIdClaim = userManager.GetUserId(currentUser);
-        var hasValidId = int.TryParse(userIdClaim, out _userId);
-
-        if (hasValidId == false)
-            throw new Exception("Attempted to build CategoryService without Id claim. :( ");
         _context = context;
-
     }
-
+    
     public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
     {
         List<CategoryListItem> categories = await _context.Categories
-            .Where(entity => entity.CategoryId == _userId)
             .Select(entity => new CategoryListItem
             {
-                Name = entity.Name
+                Name = entity.Name,
+                Description = entity.Description
             })
             .ToListAsync();
 
@@ -43,6 +32,7 @@ public class CategoryService : ICategoryService
         Category category = new()
         {
             Name = request.Name,
+            Description = request.Description
         };
 
         _context.Categories.Add(category);
@@ -53,12 +43,22 @@ public class CategoryService : ICategoryService
 
         CategoryListItem response = new()
         {
-            Name = category.Name
+            Name = category.Name,
+            Description = category.Description
         };
 
         return response;
     }
-        
+
+    public async Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId)
+    {
+
+        var category = await _context.Categories.FindAsync(categoryId);
+        var recipe = await _context.Recipes.FindAsync(recipeId);
+        recipe?.ListOfCategorys.Add(category);
+        return await _context.SaveChangesAsync() == 1; 
+    }
+
 }
 
 

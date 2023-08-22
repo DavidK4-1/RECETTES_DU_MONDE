@@ -22,7 +22,7 @@ public class UserService : IUserService {
 
         //cheak if a user is signed in 
         var currUser = signInManager.Context.User;
-        if (currUser.Identity.Name is not null) { 
+        if (currUser.Identity?.Name is not null) { 
             //retreve an id if signed in (put it into a private field)
             var userIdClaim = userManager.GetUserId(currUser);
             if (!int.TryParse(userIdClaim, out _userId))
@@ -48,6 +48,24 @@ public class UserService : IUserService {
         IdentityResult registerResult = await _userManager.CreateAsync(entity, model.Password);
         
         return registerResult.Succeeded;
+    }
+    public async Task<bool> UpdateUserAsync(UserUpdate model) {
+        if (!await CheakEmailAvailabilityAsync(model.Email))
+        {
+            Console.WriteLine("Invalid email");
+            return false;
+        }
+        if (!await CheakUserNameAvailibilityAsync(model.UserName))
+        {
+            Console.WriteLine("Invalid username");
+            return false;
+        }
+
+        var userEntity = await _context.Users.FindAsync(_userId);
+        userEntity.Email = model.Email;
+        userEntity.UserName = model.UserName;
+        
+        return (await _userManager.UpdateAsync(userEntity)).Succeeded;
     }
     public async Task<bool> DeleteUserAsync() {
         var userEntity = await _context.Users.FindAsync(_userId);
