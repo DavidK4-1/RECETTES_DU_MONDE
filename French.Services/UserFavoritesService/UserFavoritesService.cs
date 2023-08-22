@@ -31,23 +31,11 @@ public class UserFavoritesService : IUserFavoritesService
         }
     }
 
-/*
-    public async Task<FavoritesListItem> CreateUserFavoriteAsync()
-    {
-        UserFavorite favorite = new()
-        {
-            UserId = _userId,
-        };
-
-        _context.UserFavorites.Add(favorite);
-        var nuberOfChanges = await _context.SaveChangesAsync();
-    }
-*/
     public async Task<bool> CreateUserFavoriteAsync()
     {
         UserFavorite favorite = new()
         {
-            UserId = _userId,
+            FavoriteId = _userId,
         };
 
         _context.UserFavorites.Add(favorite);
@@ -57,17 +45,23 @@ public class UserFavoritesService : IUserFavoritesService
     public async Task<IEnumerable<FavoritesListItem>> GetAllFavoritesAsync()
     {
         List<FavoritesListItem> favorites = await _context.UserFavorites
-            .Where(entity => entity.Id == _userId)
+            .Where(entity => entity.FavoriteId == _userId)
             .Select(entity => new FavoritesListItem
             {
-                Id = entity.Id
+                Id = entity.FavoriteId
             })
             .ToListAsync();
 
-            return favorites;
+        return favorites;
     }
 
- // public void AddRecipeToFavorites(int _userId)
-}
+    public async Task<bool> AddRecipeToFavoritesAsync(int favoriteId, int recipeId)
+    {
+        var favorite = await _context.UserFavorites.FindAsync(favoriteId);
+        var recipe = await _context.Recipes.FindAsync(recipeId);
+        favorite?.ListOfRecipes.Add(recipe);
+        return await _context.SaveChangesAsync() == 1;
 
+    }
+}
 
