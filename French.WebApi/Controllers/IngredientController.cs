@@ -23,12 +23,21 @@ public class IngredientController : ControllerBase {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        return await _ingredientService.CreateIngredientAsync(model) ? Ok(new TextResponse("User was registered"))
-                                                                     : BadRequest(new TextResponse("User could not be registered"));
+        return await _ingredientService.CreateIngredientAsync(model) ? Ok(new TextResponse("Ingredient was created"))
+                                                                     : BadRequest(new TextResponse("Ingredient was not created"));
     }
-    /*
-    //get ingredient by id
+    [HttpGet]
+    public async Task<IActionResult> GetAllIngredientsAsync()
+        => Ok(await _ingredientService.GetAllIngredientItemsAsync());
+
     [HttpGet("{Id:int}")]
-    public async Task<IActionResult> GetIngredientById([FromRoute] int ingredientId) 
-    */ 
+    public async Task<IActionResult> GetIngredientById([FromRoute] int Id) { 
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var ret = await _ingredientService.GetIngredientByIdAsync(Id);
+        return ret is not null ? Ok(ret)
+                               : BadRequest(new TextResponse("Not found"));
+    }
+    
 }

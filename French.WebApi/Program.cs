@@ -4,14 +4,14 @@ using French.Services.TokenService;
 using French.Services.UserService;
 using French.Services.UserFavoritesService;
 using French.Services.CatagoryService;
+using French.Services.Recipe;
+using French.Services.IngredientService;
+using French.Services.UserPostService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using French.Services.Recipe;
-using French.Services.IngredientService;
-using French.Services.UserPostService;
 
 var builder = WebApplication.CreateBuilder(args);
 

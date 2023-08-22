@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-<<<<<<< HEAD
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace French.Data.Entities;
