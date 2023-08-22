@@ -51,16 +51,16 @@ public class RecipeService : IRecipeService
         if (numberOfChanges != 1)
             return false;
 
-        var recipe =  _dbContext.Recipes.Entry(entity);
+        var recipe = _dbContext.Recipes.Entry(entity);
 
-        foreach(var i in request.IngredientKeys)
+        foreach (var i in request.IngredientKeys)
         {
             var ingredient = await _dbContext.Ingredients.FindAsync(i);
 
-            if(ingredient is not null)
+            if (ingredient is not null)
                 recipe.Entity.Ingredients.Add(ingredient);
         }
-        
+
         numberOfChanges = await _dbContext.SaveChangesAsync();
 
         if (numberOfChanges != 1)
@@ -84,11 +84,11 @@ public class RecipeService : IRecipeService
 
         List<RecipeListItems> recipesList = new List<RecipeListItems>();
 
-        foreach(var recipeItem in recipes)
+        foreach (var recipeItem in recipes)
         {
-            foreach(var categoryItem in recipeItem!.ListOfCategorys)
+            foreach (var categoryItem in recipeItem!.ListOfCategorys)
             {
-                if(categoryItem.CategoryId == categoryId)
+                if (categoryItem.CategoryId == categoryId)
                     recipesList.Add(recipeItem);
             }
         }
@@ -104,5 +104,29 @@ public class RecipeService : IRecipeService
 
         _dbContext.Recipes.Remove(recipe);
         return await _dbContext.SaveChangesAsync() == 1;
+    }
+
+    public async Task<List<RecipeDetail>> GetRecipeByIngredientIdAsync(int id)
+    {
+        List<RecipeDetail> ret = new();
+        foreach (var recipe in _dbContext.Recipes)
+        {
+            foreach (var item in recipe.Ingredients)
+            {
+                if (item.IngredientId == id)
+                {
+                    ret.Add(new RecipeDetail()
+                    {
+                        Instruction = recipe.Instruction,
+                        Title = recipe.Title,
+                        Description = recipe.Description,
+                        RecipeId = recipe.RecipeId
+                    });
+                    break;
+                }
+            }
+        }
+
+        return ret;
     }
 }
