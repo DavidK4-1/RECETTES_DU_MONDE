@@ -12,15 +12,12 @@ namespace French.WebApi.Controllers;
 [ApiController]
 public class UserFavoritesController : ControllerBase
 {
- //   private readonly IUserService _userService;
- //   private readonly ITokenService _tokenService;
     private readonly IUserFavoritesService _userFavoritesService;
 
-    public UserFavoritesController(IUserFavoritesService UserFavoritesService, ITokenService tokenService)
+    public UserFavoritesController(IUserFavoritesService UserFavoritesService)
     {
         _userFavoritesService = UserFavoritesService;
-    //    _tokenService = tokenService;
-     //   _userService = userService;
+
     }
 
     [HttpPost]
@@ -33,7 +30,7 @@ public class UserFavoritesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllFavorites()
     {
-        var favorites = await _userFavoritesService.GetAllFavoritesAsync();
+        var favorites = await _userFavoritesService.GetAllUserFavoritesAsync();
         return Ok(favorites); //Return Favorites
     }
 

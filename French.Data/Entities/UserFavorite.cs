@@ -15,7 +15,7 @@ public class UserFavorite
 
     public virtual User User { get; set; }
 
-    public virtual ICollection<Recipe> ListOfRecipes { get; set; }
+    public virtual ICollection<Recipe> ListOfRecipes { get; set; } = null!;
 
     public UserFavorite()
     {

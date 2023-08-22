@@ -1,17 +1,16 @@
 ﻿using System;
 using French.Models.CatagoryModels;
 
-namespace French.Services.CatagoryService
+namespace French.Services.CatagoryService;
+
+public interface ICategoryService
 {
-	public interface ICategoryService
-	{
-		Task<CategoryListItem?> CreateCategoryAsync(CategoryCreate request);
+	Task<CategoryListItem?> CreateCategoryAsync(CategoryCreate request);
 
-		Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync();
+	Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync();
 
-		Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId);
+	Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId);
 
-		Task<bool> DeleteCategoryAsync(int categoryId);
+	Task<bool> DeleteCategoryAsync(int categoryId);
     }
-}
 

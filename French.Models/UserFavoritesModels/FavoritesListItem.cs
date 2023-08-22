@@ -6,11 +6,13 @@ namespace French.Models.UserFavoritesModels;
 
 public class FavoritesListItem
 {
-	public int Id { get; set; }
 
-    public ICollection<RecipeDetail> ListOfRecipes { get; set; } = null!;
+    public int RecipeId { get; set; }
 
- // public RecipeDetail ListOfRecipes { get; set; } = null!;
+    public string Title { get; set; } = null!;
+
+    public string Description { get; set; } = null!;
+
 }
 
 

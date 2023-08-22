@@ -4,6 +4,7 @@ using French.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace French.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821183451_IcollectionRecipeVirtualUpdate")]
+    partial class IcollectionRecipeVirtualUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +109,12 @@ namespace French.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("UserFavoriteUserId")
+                        .HasColumnType("int");
+
                     b.HasKey("RecipeId");
+
+                    b.HasIndex("UserFavoriteUserId");
 
                     b.ToTable("Recipes");
                 });
@@ -370,21 +378,6 @@ namespace French.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RecipeUserFavorite", b =>
-                {
-                    b.Property<int>("ListOfRecipesRecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserFavoritesUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ListOfRecipesRecipeId", "UserFavoritesUserId");
-
-                    b.HasIndex("UserFavoritesUserId");
-
-                    b.ToTable("RecipeUserFavorite");
-                });
-
             modelBuilder.Entity("CategoryRecipe", b =>
                 {
                     b.HasOne("French.Data.Entities.Category", null)
@@ -398,6 +391,13 @@ namespace French.Data.Migrations
                         .HasForeignKey("ListOfRecipesRecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("French.Data.Entities.Recipe", b =>
+                {
+                    b.HasOne("French.Data.Entities.UserFavorite", null)
+                        .WithMany("ListOfRecipes")
+                        .HasForeignKey("UserFavoriteUserId");
                 });
 
             modelBuilder.Entity("French.Data.Entities.UserFavorite", b =>
@@ -488,25 +488,15 @@ namespace French.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RecipeUserFavorite", b =>
-                {
-                    b.HasOne("French.Data.Entities.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("ListOfRecipesRecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("French.Data.Entities.UserFavorite", null)
-                        .WithMany()
-                        .HasForeignKey("UserFavoritesUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("French.Data.Entities.User", b =>
                 {
                     b.Navigation("UserFavorite")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("French.Data.Entities.UserFavorite", b =>
+                {
+                    b.Navigation("ListOfRecipes");
                 });
 #pragma warning restore 612, 618
         }

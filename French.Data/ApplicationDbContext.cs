@@ -19,6 +19,6 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, i
 
         modelBuilder.Entity<User>().ToTable("users");
 
-     //   modelBuilder.Entity<UserFavorite>().HasNoKey();
+     // modelBuilder.Entity<UserFavorite>().ToTable("UserFavorite");
     }
 }
