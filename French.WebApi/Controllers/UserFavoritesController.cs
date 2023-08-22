@@ -43,7 +43,7 @@ public class UserFavoritesController : ControllerBase
 
         return BadRequest(new TextResponse("Could not add recipe to favorites!"));
     }
-
+    /*
     [HttpDelete("{FavoriteId:int}")]
     public async Task<IActionResult> DeleteFavorite([FromRoute] int FavoriteId)
     {
@@ -51,6 +51,6 @@ public class UserFavoritesController : ControllerBase
             ? Ok($"Favorite {FavoriteId} was deleted successfully.")
             : BadRequest($"Favorite {FavoriteId} could NOT be deleted!");
     }
-
+    */
 }
 

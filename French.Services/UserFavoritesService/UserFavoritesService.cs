@@ -81,15 +81,30 @@ public class UserFavoritesService : IUserFavoritesService
 
     }
 
-    public async Task<bool> DeleteUserFavoriteAsync(int FavoriteId)
+    /*
+    public async Task<bool> DeleteUserFavoriteAsync(int recipeId)
     {
-        var favorite = await _context.UserFavorites.FindAsync(FavoriteId);
+        var user = await _context.UserFavorites.Where(e => e.UserId == _userId).Include(l => l.ListOfRecipes).ToListAsync();
+        foreach (var recipe in user[0].ListOfRecipes)
+        {
+            if (RecipeId != recipeId)
+                return false;
 
-        if (favorite?.UserId != FavoriteId)
+            user.Remove(recipe);
+            return await _context.SaveChangesAsync() == 1;
+        }
+        }
+    public async Task<bool> DeleteUserFavoriteAsync(int recipeId)
+    {
+        var userFavorite = await _context.UserFavorites.FindAsync(_userId);
+        if (userFavorite.)
+
+        if (favorite?. != recipeId
             return false;
 
         _context.UserFavorites.Remove(favorite);
         return await _context.SaveChangesAsync() == 1;
     }
+    */
 }
 
