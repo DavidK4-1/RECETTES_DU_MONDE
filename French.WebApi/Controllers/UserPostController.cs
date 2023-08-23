@@ -13,11 +13,6 @@ public class UserPostController : ControllerBase
 {
     private readonly IUserPostService _userPostService;
 
-    public UserPostController(IUserPostService userPostService)
-    {
-
-        private readonly IUserPostService _userPostService;
-
         public UserPostController(IUserPostService userPostService)
         {
             _userPostService = userPostService;
@@ -44,8 +39,8 @@ public class UserPostController : ControllerBase
                 ? Ok(posts)
                 : NotFound();
         }
-/*
-        [HttpDelete]
+
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteUserPost([FromRoute] int userPostId)
         {
             return await _userPostService.DeleteUserPostAsync(userPostId)
@@ -59,6 +54,6 @@ public class UserPostController : ControllerBase
             return await _userPostService.DeleteUserPostsByRecipeAsync(recipeId)
                 ? Ok("UserPosts were deleted successfully.")
                 : BadRequest("UserPosts failed to be deleted.");
-        }*/
+        }
     }
 
