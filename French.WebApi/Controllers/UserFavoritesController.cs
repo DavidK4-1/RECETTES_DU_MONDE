@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
