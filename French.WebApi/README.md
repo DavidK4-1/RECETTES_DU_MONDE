@@ -1,6 +1,7 @@
 # Recettes Du Monde
 
 An API for saving and sharing recipes worldwide.
+
 Can easly get and create feedback for recipes saved in the database.
 
 ## More information on the api is found below...
