@@ -13,12 +13,13 @@ public class CategoryService : ICategoryService
     {
         _context = context;
     }
-    
+
     public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
     {
         List<CategoryListItem> categories = await _context.Categories
             .Select(entity => new CategoryListItem
             {
+                CategoryId = entity.CategoryId,
                 Name = entity.Name,
                 Description = entity.Description
             })
@@ -43,6 +44,7 @@ public class CategoryService : ICategoryService
 
         CategoryListItem response = new()
         {
+            CategoryId = category.CategoryId,
             Name = category.Name,
             Description = category.Description
         };
@@ -56,7 +58,18 @@ public class CategoryService : ICategoryService
         var category = await _context.Categories.FindAsync(categoryId);
         var recipe = await _context.Recipes.FindAsync(recipeId);
         recipe?.ListOfCategorys.Add(category);
-        return await _context.SaveChangesAsync() == 1; 
+        return await _context.SaveChangesAsync() == 1;
+    }
+
+    public async Task<bool> DeleteCategoryAsync(int categoryId)
+    {
+        var category = await _context.Categories.FindAsync(categoryId);
+
+        if (category?.CategoryId != categoryId)
+            return false;
+
+        _context.Categories.Remove(category);
+        return await _context.SaveChangesAsync() == 1;
     }
 
 }
