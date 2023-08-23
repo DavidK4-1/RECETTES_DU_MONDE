@@ -7,10 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 5913ab396e401f0f66b674ae46aadeeec05605cf
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
@@ -38,23 +35,30 @@ public class UserFavoritesController : ControllerBase
         return Ok(favorites); //Return Favorites
     }
 
-    [HttpPut("{recipeId}")]
-    public async Task<IActionResult> AddRecipeToFavorites([FromRoute]int recipeId)
-    {
-        var response = await _userFavoritesService.AddRecipeToFavoritesAsync(recipeId);
-        if (response)
-            return Ok(response);
+[HttpPut("{recipeId}")]
+public async Task<IActionResult> AddRecipeToFavorites([FromRoute] int recipeId)
+{
+    var addedRecipeDetail = await _userFavoritesService.AddRecipeToFavoritesAsync(recipeId);
 
-        return BadRequest(new TextResponse("Could not add recipe to favorites!"));
-    }
-    /*
-    [HttpDelete("{FavoriteId:int}")]
-    public async Task<IActionResult> DeleteFavorite([FromRoute] int FavoriteId)
+    if (addedRecipeDetail != null)
     {
-        return await _userFavoritesService.DeleteUserFavoriteAsync(FavoriteId)
-            ? Ok($"Favorite {FavoriteId} was deleted successfully.")
-            : BadRequest($"Favorite {FavoriteId} could NOT be deleted!");
+            string message = $"`{addedRecipeDetail.Title}` sounds delicious! It has been added to your favorites.";
+        return Ok(message);
     }
-    */
+    else
+    {
+        return BadRequest($"Favorite {recipeId} could NOT be added!");
+    }
+}
+
+    
+    [HttpDelete("{recipeId}")]
+    public async Task<IActionResult> DeleteFavorite([FromRoute] int recipeId)
+    {
+        return await _userFavoritesService.DeleteUserFavoriteAsync(recipeId)
+            ? Ok($"Favorite {recipeId} was deleted successfully.")
+            : BadRequest($"Favorite {recipeId} could NOT be deleted!");
+    }
+    
 }
 

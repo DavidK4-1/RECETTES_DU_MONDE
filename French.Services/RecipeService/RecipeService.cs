@@ -106,7 +106,7 @@ public class RecipeService : IRecipeService
         return await _dbContext.SaveChangesAsync() == 1;
     }
 
-    public async Task<List<RecipeDetail>> GetRecipeByIngredientIdAsync(int id)
+    public async Task<List<RecipeDetail>> GetRecipesByIngredientIdAsync(int id)
     {
         List<RecipeDetail> ret = new();
         foreach (var recipe in _dbContext.Recipes)

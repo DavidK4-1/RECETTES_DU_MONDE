@@ -9,8 +9,8 @@ public interface ICategoryService
 
 	Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync();
 
-	Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId);
+	Task<string> AddCategoryToRecipeAsync(int categoryId, int recipeId);
 
-	Task<bool> DeleteCategoryAsync(int categoryId);
+	Task<string> DeleteCategoryAsync(int categoryId);
     }
 

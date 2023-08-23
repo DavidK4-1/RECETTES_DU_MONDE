@@ -44,18 +44,16 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> AddCategoryToRecipe([FromRoute]int categoryId, [FromRoute]int recipeId)
     {
         var response = await _categoryService.AddCategoryToRecipeAsync(categoryId, recipeId);
-        if (response)
-            return Ok(response);
 
-        return BadRequest(new TextResponse("Could not add category to recipe!"));
+        return Ok(response);
     }
 
-    [HttpDelete("{categoryId:int}")]
+    [HttpDelete("{categoryId}")]
     public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
     {
-        return await _categoryService.DeleteCategoryAsync(categoryId)
-            ? Ok($"Category {categoryId} was deleted.")
-            : BadRequest($"Uh-oh! Category {categoryId} was not deleted!");
+        var response = await _categoryService.DeleteCategoryAsync(categoryId);
+
+        return Ok(response);
     }
 }
 
