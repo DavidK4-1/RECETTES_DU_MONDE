@@ -11,4 +11,5 @@ public interface IRecipeService
     Task<List<RecipeListItems?>> GetRecipesByCategoryIdAsync(int categoryId);
     Task<bool> DeleteRecipeAsync(int recipeId);
     Task<List<RecipeDetail?>> GetRecipesByIngredientIdAsync(int id);
+    Task<RecipeDetail?> GetRecipeByRecipeIdAsync(int recipeId);
 }

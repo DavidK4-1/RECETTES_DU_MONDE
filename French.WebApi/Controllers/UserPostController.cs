@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserPostController : ControllerBase
-    {
-        private readonly IUserPostService _userPostService;
+[Route("api/[controller]")]
+[ApiController]
+public class UserPostController : ControllerBase
+{
+    private readonly IUserPostService _userPostService;
 
         public UserPostController(IUserPostService userPostService)
         {
@@ -31,7 +30,7 @@ namespace French.WebApi.Controllers;
             return BadRequest(new TextResponse("Post failed to be created."));
         }
 
-        [HttpGet]
+        [HttpGet("{recipeId}")]
         public async Task<IActionResult> GetUserPostsByRecipe([FromRoute] int recipeId)
         {
             var posts = await _userPostService.GetUserPostsByRecipeAsync(recipeId);
@@ -40,7 +39,7 @@ namespace French.WebApi.Controllers;
                 : NotFound();
         }
 
-        [HttpDelete]
+        [HttpDelete("Delete/{userPostId}")]
         public async Task<IActionResult> DeleteUserPost([FromRoute] int userPostId)
         {
             return await _userPostService.DeleteUserPostAsync(userPostId)
@@ -48,7 +47,7 @@ namespace French.WebApi.Controllers;
                 : BadRequest($"UserPost {userPostId} failed to be deleted.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{recipeId}")]
         public async Task<IActionResult> DeleteUserPostsByRecipe([FromRoute] int recipeId)
         {
             return await _userPostService.DeleteUserPostsByRecipeAsync(recipeId)
@@ -56,3 +55,4 @@ namespace French.WebApi.Controllers;
                 : BadRequest("UserPosts failed to be deleted.");
         }
     }
+

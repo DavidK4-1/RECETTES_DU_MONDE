@@ -18,13 +18,16 @@ public class Recipe
     [Required, MinLength(1), MaxLength(8000)]
     public string Instruction { get; set; } = string.Empty;
 
-    public virtual ICollection<Ingredient> Ingredients { get; set; } = null!;
+    public virtual ICollection<Ingredient> ListOfIngredients { get; set; } = null!;
 
     public virtual ICollection<Category> ListOfCategorys { get; set; } = null!;
+
+    public virtual ICollection<UserFavorite> UserFavorites { get; set; } = null!;
 
     public Recipe()
     {
         ListOfCategorys = new HashSet<Category>();
-        Ingredients = new HashSet<Ingredient>();
+        ListOfIngredients = new HashSet<Ingredient>();
+        UserFavorites = new HashSet<UserFavorite>();
     }
 }

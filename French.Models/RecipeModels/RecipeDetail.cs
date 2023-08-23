@@ -1,3 +1,5 @@
+using French.Models.IngredientModels;
+
 namespace French.Models.Recipe
 {
     public class RecipeDetail
@@ -7,5 +9,7 @@ namespace French.Models.Recipe
         public string Description { get; set; } = string.Empty;
 
         public string Instruction { get; set; } = string.Empty;
+
+        public IngredientItem [] ListOfIngredients { get; set; } = null!;
     }
 }

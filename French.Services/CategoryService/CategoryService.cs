@@ -13,12 +13,13 @@ public class CategoryService : ICategoryService
     {
         _context = context;
     }
-    
+
     public async Task<IEnumerable<CategoryListItem>> GetAllCategoriesAsync()
     {
         List<CategoryListItem> categories = await _context.Categories
             .Select(entity => new CategoryListItem
             {
+                CategoryId = entity.CategoryId,
                 Name = entity.Name,
                 Description = entity.Description
             })
@@ -43,6 +44,7 @@ public class CategoryService : ICategoryService
 
         CategoryListItem response = new()
         {
+            CategoryId = category.CategoryId,
             Name = category.Name,
             Description = category.Description
         };
@@ -50,13 +52,36 @@ public class CategoryService : ICategoryService
         return response;
     }
 
-    public async Task<bool> AddCategoryToRecipeAsync(int categoryId, int recipeId)
+    public async Task<string> AddCategoryToRecipeAsync(int categoryId, int recipeId)
     {
 
         var category = await _context.Categories.FindAsync(categoryId);
         var recipe = await _context.Recipes.FindAsync(recipeId);
-        recipe?.ListOfCategorys.Add(category);
-        return await _context.SaveChangesAsync() == 1; 
+        if (category == null || recipe == null)
+        {
+            return "Failed to associate category with recipe!";
+        }
+        recipe.ListOfCategorys.Add(category);
+        await _context.SaveChangesAsync();
+
+        string success = $"Category: `{category.Name}` has been added to Recipe: `{recipe.Title}`.";
+        return success;
+    }
+
+    public async Task<string> DeleteCategoryAsync(int categoryId)
+    {
+        var category = await _context.Categories.FindAsync(categoryId);
+
+        if (category == null)
+        {
+            return "Failed to delete category!";
+        }
+        var categoryName = category.Name;  // Need to capture Name before removing it!
+        _context.Categories.Remove(category);
+        await _context.SaveChangesAsync();
+
+        string success = $"Category: `{categoryName}` was deleted.";
+        return success;
     }
 
 }

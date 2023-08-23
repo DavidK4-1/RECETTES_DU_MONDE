@@ -12,14 +12,12 @@ namespace French.WebApi.Controllers;
 [ApiController]
 public class UserFavoritesController : ControllerBase
 {
-    private readonly IUserService _userService;
-    private readonly ITokenService _tokenService;
     private readonly IUserFavoritesService _userFavoritesService;
 
-    public UserFavoritesController(IUserFavoritesService UserFavoritesService, ITokenService tokenService)
+    public UserFavoritesController(IUserFavoritesService UserFavoritesService)
     {
         _userFavoritesService = UserFavoritesService;
-        _tokenService = tokenService;
+
     }
 
     [HttpPost]
@@ -32,19 +30,36 @@ public class UserFavoritesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllFavorites()
     {
-        var favorites = await _userFavoritesService.GetAllFavoritesAsync();
+        var favorites = await _userFavoritesService.GetAllUserFavoritesAsync();
         return Ok(favorites); //Return Favorites
     }
 
-    [HttpPut("{FavoriteId}/{recipeId}")]
-    public async Task<IActionResult> AddRecipeToFavorites([FromRoute]int favoriteId, [FromRoute]int recipeId)
+
+[HttpPut("{recipeId}")]
+public async Task<IActionResult> AddRecipeToFavorites([FromRoute] int recipeId)
+{
+    var addedRecipeDetail = await _userFavoritesService.AddRecipeToFavoritesAsync(recipeId);
+
+    if (addedRecipeDetail != null)
     {
-        var response = await _userFavoritesService.AddRecipeToFavoritesAsync(favoriteId, recipeId);
-        if (response)
-            return Ok(response);
-
-        return BadRequest(new TextResponse("Could not add recipe to favorites!"));
+            string message = $"`{addedRecipeDetail.Title}` sounds delicious! It has been added to your favorites.";
+        return Ok(message);
     }
+    else
+    {
+        return BadRequest($"Favorite {recipeId} could NOT be added!");
+    }
+}
 
+    
+    [HttpDelete("{recipeId}")]
+    public async Task<IActionResult> DeleteFavorite([FromRoute] int recipeId)
+    {
+        return await _userFavoritesService.DeleteUserFavoriteAsync(recipeId)
+            ? Ok($"Favorite {recipeId} was deleted successfully.")
+            : BadRequest($"Favorite {recipeId} could NOT be deleted!");
+
+    }
+    
 }
 
