@@ -37,7 +37,7 @@ namespace French.WebApi.Controllers;
             return BadRequest(new TextResponse("Could not create Recipe"));
         }
 
-        [HttpGet("{categoryId:int}")]
+        [HttpGet("/category/{categoryId:int}")]
         public async Task<IActionResult> GetRecipeByCategoryId([FromRoute] int categoryId)
         {
             var detail = await _recipeService.GetRecipesByCategoryIdAsync(categoryId);
@@ -50,14 +50,23 @@ namespace French.WebApi.Controllers;
         public async Task<IActionResult> DeleteRecipe([FromRoute] int recipeId)
         {
             return await _recipeService.DeleteRecipeAsync(recipeId)
-                ? Ok($"Recipe {recipeId} was deleted successfully.")
+                ? Ok($"Recipe {recipeId} was deleted 1successfully.")
                 : BadRequest($"Recipe {recipeId} could not be deleted.");
         }
         
-        [HttpGet("id:int")]
+        [HttpGet("/GetByIngredient/{id:int}")]
         public async Task<IActionResult> GetRecipesByIngredientId([FromRoute] int id)
         {
             var detail = await _recipeService.GetRecipesByIngredientIdAsync(id);
+            return detail is not null
+            ? Ok(detail)
+            : NotFound();
+        }
+
+        [HttpGet("{recipeId:int}")]
+        public async Task<IActionResult> GetRecipeByRecipeId([FromRoute] int recipeId)
+        {
+            var detail = await _recipeService.GetRecipeByRecipeIdAsync(recipeId);
             return detail is not null
             ? Ok(detail)
             : NotFound();

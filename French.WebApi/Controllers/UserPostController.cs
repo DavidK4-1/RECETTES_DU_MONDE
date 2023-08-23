@@ -39,7 +39,7 @@ namespace French.WebApi.Controllers;
                 ? Ok(posts)
                 : NotFound();
         }
-
+/*
         [HttpDelete]
         public async Task<IActionResult> DeleteUserPost([FromRoute] int userPostId)
         {
@@ -54,5 +54,5 @@ namespace French.WebApi.Controllers;
             return await _userPostService.DeleteUserPostsByRecipeAsync(recipeId)
                 ? Ok("UserPosts were deleted successfully.")
                 : BadRequest("UserPosts failed to be deleted.");
-        }
+        }*/
     }
