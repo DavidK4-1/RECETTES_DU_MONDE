@@ -54,10 +54,32 @@ Welcome to **Recettes du Monde**, your culinary companion for exploring, sharing
 
 ### Installation
 
-1. Clone the repository: `git clone https://github.com/YOURUSERNAME/recipe-sharing-app.git`
+1. Clone the repository: `git clone https://github.com/YOURUSERNAME/recipe-sharing-app.git (Replace YOURUSERNAME with...your username.)
 2. Navigate to the project directory: `cd recipe-sharing-app`
 3. Install dependencies: `npm install`
 
 ### Usage
 
 1. Start
+2.
+3.
+4.
+ 
+## Technologies
+
+- Frontend: ...
+- Backend: Entity Framework +
+- Database: Azure Data Studio + Docker
+- Authentication: Bearer Authentication Token
+- API Documentation: Swagger/OpenAPI
+
+## Contributers
+- WillieFraz
+- DavidK4-1
+- LiebesleidSam
+- NathanielMDev
+
+## Contact
+
+For inquiries, suggestions, or support, feel free to contact our team at MartysEmail@gmail.com
+
