@@ -44,22 +44,28 @@ public class UserPostService : IUserPostService
     {
         var userPostList = await GetUserPostsByRecipeAsync(recipeId);
 
+        int chk = 0;
         foreach(var userPost in userPostList)
         {
             await DeleteUserPostAsync(userPost.UserPostId);
+            chk++;
         }
-        return true;
+        return await _dbContext.SaveChangesAsync() == chk;
     }
 
-    public async Task<List<UserPost>> GetUserPostsByRecipeAsync(int recipeId)
+    public async Task<List<UserPostItem>> GetUserPostsByRecipeAsync(int recipeId)
     {
-        List<UserPost> userPostList = new List<UserPost>();
+        List<UserPostItem> userPostList = new();
 
         foreach(var userPost in _dbContext.UserPosts)
         {
             if(userPost.RecipeId == recipeId)
             {
-                userPostList.Add(userPost);
+                userPostList.Add(new UserPostItem() { 
+                    UserPostId = userPost.UserPostId,
+                    ReviewText = userPost.ReviewText,
+                    ReviewDate = userPost.ReviewDate,
+                    ReviewRating = userPost.ReviewRating});
             }
         }
         return userPostList;

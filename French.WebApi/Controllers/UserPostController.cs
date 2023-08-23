@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UserPostController : ControllerBase
@@ -31,7 +30,7 @@ public class UserPostController : ControllerBase
             return BadRequest(new TextResponse("Post failed to be created."));
         }
 
-        [HttpGet]
+        [HttpGet("{recipeId}")]
         public async Task<IActionResult> GetUserPostsByRecipe([FromRoute] int recipeId)
         {
             var posts = await _userPostService.GetUserPostsByRecipeAsync(recipeId);
@@ -40,7 +39,7 @@ public class UserPostController : ControllerBase
                 : NotFound();
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{userPostId}")]
         public async Task<IActionResult> DeleteUserPost([FromRoute] int userPostId)
         {
             return await _userPostService.DeleteUserPostAsync(userPostId)
@@ -48,7 +47,7 @@ public class UserPostController : ControllerBase
                 : BadRequest($"UserPost {userPostId} failed to be deleted.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{recipeId}")]
         public async Task<IActionResult> DeleteUserPostsByRecipe([FromRoute] int recipeId)
         {
             return await _userPostService.DeleteUserPostsByRecipeAsync(recipeId)
