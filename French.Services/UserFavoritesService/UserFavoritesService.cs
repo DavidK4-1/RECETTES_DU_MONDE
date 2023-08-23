@@ -67,7 +67,8 @@ public class UserFavoritesService : IUserFavoritesService
                 RecipeId = recipe.RecipeId,
                 Title = recipe.Title,
                 Description = recipe.Description,
-                Instruction = recipe.Instruction
+                Instruction = recipe.Instruction,
+                ListOfIngredients = recipe.ListOfIngredients
             })
             .ToList();
 
