@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using French.Data;
 using French.Data.Entities;
+using French.Models.IngredientModels;
 using French.Models.Recipe;
 using French.Models.UserFavoritesModels;
 using Microsoft.AspNetCore.Identity;
@@ -68,7 +70,7 @@ public class UserFavoritesService : IUserFavoritesService
                 Title = recipe.Title,
                 Description = recipe.Description,
                 Instruction = recipe.Instruction,
-                ListOfIngredients = recipe.ListOfIngredients
+    //            ListOfIngredients = IngredientToIngredientItem(recipe.ListOfIngredients)
             })
             .ToList();
 
@@ -131,5 +133,21 @@ public class UserFavoritesService : IUserFavoritesService
 
         return await _context.SaveChangesAsync() == 1;
     }
+/*
+    private static IngredientItem[] IngredientToIngredientItem(ICollection<Ingredient> ig)
+    {
+        List<IngredientItem> ret = new();
+        foreach (var i in ig)
+        {
+            ret.Add(new IngredientItem()
+            {
+                Name = i.Name,
+                Description = i.Description
+            });
+        }
+
+        return ret.ToArray();
+    }
+*/
 }
 

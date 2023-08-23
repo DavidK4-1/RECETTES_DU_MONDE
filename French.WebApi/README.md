@@ -31,23 +31,8 @@ Welcome to **Recettes du Monde**, your culinary companion for exploring, sharing
 - **Community Interaction:** Engage with other users by commenting on recipes, sharing cooking tips, and uploading your culinary creations.
 
 
-<TODO add all of the ENDPOINTS and the AUTHORIZED specifications>
 
 ## api endpoints
-```
-- Add Recipe: POST /api/recipe
-- Add Recipe to Favorites: [Authorize] POST /api/recipes/favorite/{recipeId}
-- Add Post: [Authorize] POST /api/userPost
-- Add User (Register): POST /api/User/register
-- Get All Categories: GET /api/Category
-- Get All Recipes: GET /api/Recipe
-- Get Ingredients: GET /api/Ingredient/{ingredientId}
-- Get All Users Favorites: [Authorize] GET /api/User/favorites
-- Get Recipe Details By Category Id: GET /api/Recipes/{recipeId}
-- Update User: [Authorize] PUT /api/users/{userId}
-- Delete User: [Authorize] DELETE /api/users/delete/
-- Delete Recipe: DELETE /api/users/delete/{}\
-```
 
 ---
 
