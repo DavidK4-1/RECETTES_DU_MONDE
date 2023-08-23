@@ -1,3 +1,5 @@
+using French.Models.IngredientModels;
+
 namespace French.Models.Recipe
 {
     public class RecipeDetail
@@ -8,6 +10,6 @@ namespace French.Models.Recipe
 
         public string Instruction { get; set; } = string.Empty;
 
-        public ICollection<French.Data.Entities.Ingredient> ListOfIngredients { get; set; } = null!;
+        public IngredientItem [] ListOfIngredients { get; set; } = null!;
     }
 }
