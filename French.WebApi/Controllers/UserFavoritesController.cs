@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
@@ -35,6 +34,7 @@ public class UserFavoritesController : ControllerBase
         return Ok(favorites); //Return Favorites
     }
 
+
 [HttpPut("{recipeId}")]
 public async Task<IActionResult> AddRecipeToFavorites([FromRoute] int recipeId)
 {
@@ -58,6 +58,7 @@ public async Task<IActionResult> AddRecipeToFavorites([FromRoute] int recipeId)
         return await _userFavoritesService.DeleteUserFavoriteAsync(recipeId)
             ? Ok($"Favorite {recipeId} was deleted successfully.")
             : BadRequest($"Favorite {recipeId} could NOT be deleted!");
+
     }
     
 }

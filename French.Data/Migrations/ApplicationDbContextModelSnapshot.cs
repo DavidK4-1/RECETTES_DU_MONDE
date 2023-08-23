@@ -220,13 +220,13 @@ namespace French.Data.Migrations
 
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
-                    b.Property<int>("IngredientsIngredientId")
+                    b.Property<int>("ListOfIngredientsIngredientId")
                         .HasColumnType("int");
 
                     b.Property<int>("RecipeListRecipeId")
                         .HasColumnType("int");
 
-                    b.HasKey("IngredientsIngredientId", "RecipeListRecipeId");
+                    b.HasKey("ListOfIngredientsIngredientId", "RecipeListRecipeId");
 
                     b.HasIndex("RecipeListRecipeId");
 
@@ -426,7 +426,7 @@ namespace French.Data.Migrations
                 {
                     b.HasOne("French.Data.Entities.Ingredient", null)
                         .WithMany()
-                        .HasForeignKey("IngredientsIngredientId")
+                        .HasForeignKey("ListOfIngredientsIngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

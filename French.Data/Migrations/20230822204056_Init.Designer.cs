@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace French.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230821190330_ListOfUserFaveInRecipeModel")]
-    partial class ListOfUserFaveInRecipeModel
+    [Migration("20230822204056_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -223,13 +223,13 @@ namespace French.Data.Migrations
 
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
-                    b.Property<int>("IngredientsIngredientId")
+                    b.Property<int>("ListOfIngredientsIngredientId")
                         .HasColumnType("int");
 
                     b.Property<int>("RecipeListRecipeId")
                         .HasColumnType("int");
 
-                    b.HasKey("IngredientsIngredientId", "RecipeListRecipeId");
+                    b.HasKey("ListOfIngredientsIngredientId", "RecipeListRecipeId");
 
                     b.HasIndex("RecipeListRecipeId");
 
@@ -429,7 +429,7 @@ namespace French.Data.Migrations
                 {
                     b.HasOne("French.Data.Entities.Ingredient", null)
                         .WithMany()
-                        .HasForeignKey("IngredientsIngredientId")
+                        .HasForeignKey("ListOfIngredientsIngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

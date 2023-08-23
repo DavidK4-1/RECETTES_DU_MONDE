@@ -1,4 +1,6 @@
 using French.Data.Entities;
+using French.Models.IngredientModels;
+
 namespace French.Models.Recipe;
 
 public class RecipeListItems
@@ -9,11 +11,9 @@ public class RecipeListItems
 
     public string Description { get; set; } = string.Empty;
 
-    public ICollection<French.Data.Entities.Category> ListOfCategorys { get; set; } = null!;
+    public IngredientItem [] Ingredients { get; set; } = null!; //Maybe remove 
 
-    public Ingredient [] Ingredients { get; set; } = null!; //Maybe remove 
-
-    public Category [] Categorys { get; set; } = null!;
+    //public Category [] Categorys { get; set; } = null!;
 
 
 }

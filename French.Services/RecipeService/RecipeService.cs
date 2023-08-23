@@ -2,6 +2,7 @@ using System.ComponentModel;
 using Azure.Core;
 using French.Data;
 using French.Data.Entities;
+using French.Models.IngredientModels;
 using French.Models.Recipe;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,14 @@ public class RecipeService : IRecipeService
 
     public async Task<IEnumerable<RecipeListItems?>> GetAllRecipesAsync()
     {
+       // _dbContext.Ingredients.Load();
         List<RecipeListItems> recipes = await _dbContext.Recipes
             .Select(entity => new RecipeListItems
             {
-                ListOfCategorys = entity.ListOfCategorys,
                 RecipeId = entity.RecipeId,
                 Title = entity.Title,
-                Description = entity.Description
+                Description = entity.Description,
+                Ingredients = IngredientToIngredientItem(entity.ListOfIngredients) 
             })
             .ToListAsync();
 
@@ -58,7 +60,7 @@ public class RecipeService : IRecipeService
             var ingredient = await _dbContext.Ingredients.FindAsync(i);
 
             if (ingredient is not null)
-                recipe.Entity.Ingredients.Add(ingredient);
+                recipe.Entity.ListOfIngredients.Add(ingredient);
         }
 
         numberOfChanges = await _dbContext.SaveChangesAsync();
@@ -70,12 +72,13 @@ public class RecipeService : IRecipeService
     }
 
 
-    public async Task<List<RecipeListItems?>> GetRecipesByCategoryIdAsync(int categoryId)
+    public async Task<List<RecipeListItems?>?> GetRecipesByCategoryIdAsync(int categoryId)
     {
+        
         if (categoryId == 0)
             return null;
 
-        var recipes = await GetAllRecipesAsync();
+        //var recipes = await GetAllRecipesAsync();
 
         // Create a return list
         // Loop through every recipe to see if it has a match for a CategoryId
@@ -83,13 +86,19 @@ public class RecipeService : IRecipeService
         // Return return list
 
         List<RecipeListItems> recipesList = new List<RecipeListItems>();
-
-        foreach (var recipeItem in recipes)
+        
+        foreach (var recipeItem in _dbContext.Recipes.Include(c => c.ListOfCategorys).Include(c => c.ListOfIngredients)) 
         {
             foreach (var categoryItem in recipeItem!.ListOfCategorys)
             {
                 if (categoryItem.CategoryId == categoryId)
-                    recipesList.Add(recipeItem);
+                    recipesList.Add(new RecipeListItems()
+                    {
+                        RecipeId = recipeItem.RecipeId,
+                        Title = recipeItem.Title,
+                        Description = recipeItem.Description,
+                        Ingredients = IngredientToIngredientItem(recipeItem.ListOfIngredients) 
+                    });
             }
         }
         return recipesList;
@@ -109,12 +118,15 @@ public class RecipeService : IRecipeService
     public async Task<List<RecipeDetail>> GetRecipesByIngredientIdAsync(int id)
     {
         List<RecipeDetail> ret = new();
-        foreach (var recipe in _dbContext.Recipes)
+       // _dbContext.Ingredients.Load();
+        foreach (var recipe in _dbContext.Recipes.Include(i => i.ListOfIngredients))
         {
-            foreach (var item in recipe.Ingredients)
+            //Console.WriteLine(recipe.ListOfIngredients.ToList()[0].Name);
+            foreach (var item in recipe.ListOfIngredients)
             {
                 if (item.IngredientId == id)
                 {
+
                     ret.Add(new RecipeDetail()
                     {
                         Instruction = recipe.Instruction,
@@ -128,5 +140,38 @@ public class RecipeService : IRecipeService
         }
 
         return ret;
+    }
+
+    public async Task<RecipeDetail?> GetRecipeByRecipeIdAsync(int recipeId)
+    {
+        var recipe = await _dbContext.Recipes
+            .FindAsync(recipeId);
+
+        return recipe is null
+        ? null
+        : new RecipeDetail
+        {
+            RecipeId = recipe.RecipeId,
+            Title = recipe.Title,
+            Description = recipe.Description,
+            Instruction = recipe.Instruction,
+            ListOfIngredients = recipe.ListOfIngredients
+        };
+
+    }
+
+    private static IngredientItem[] IngredientToIngredientItem(ICollection<Ingredient> ig)
+    {
+        List<IngredientItem> ret = new();
+        foreach(var i in ig)
+        {
+            ret.Add(new IngredientItem()
+            {
+                Name = i.Name,
+                Description = i.Description
+            });
+        }
+
+        return ret.ToArray();
     }
 }
