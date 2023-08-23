@@ -50,61 +50,85 @@ public class UserFavoritesService : IUserFavoritesService
 
     public async Task<List<RecipeDetail>> GetAllUserFavoritesAsync()
     {
-        var user = await _context.UserFavorites
+        var userFavorites = await _context.UserFavorites
             .Where(e => e.UserId == _userId)
-            .Include(l => l.ListOfRecipes)
-            .ToListAsync();
+            .Include(uf => uf.ListOfRecipes)
+            .Select(uf => uf.ListOfRecipes)
+            .FirstOrDefaultAsync();
 
-        var returnList = new List<RecipeDetail>();
-
-        foreach (var recipe in user[0].ListOfRecipes)
+        if (userFavorites == null)
         {
-            RecipeDetail entry = new()
+            return new List<RecipeDetail>(); // Return an empty list if user has no favorites
+        }
+
+        var returnList = userFavorites
+            .Select(recipe => new RecipeDetail
             {
                 RecipeId = recipe.RecipeId,
                 Title = recipe.Title,
                 Description = recipe.Description,
                 Instruction = recipe.Instruction
-            };
-            returnList.Add(entry);
-        }
+            })
+            .ToList();
+
         return returnList;
     }
 
-    public async Task<bool> AddRecipeToFavoritesAsync(int recipeId)
+    public async Task<RecipeDetail> AddRecipeToFavoritesAsync(int recipeId)
     {
-        var userfavorite = await _context.UserFavorites.FindAsync(_userId);
-        var recipe = await _context.Recipes.FindAsync(recipeId);
-        userfavorite.ListOfRecipes.Add(recipe);
-        var count = await _context.SaveChangesAsync();
-        return count == 1;
+        var userfavorite = await _context.UserFavorites
+            .Include(uf => uf.ListOfRecipes)
+            .Where(uf => uf.UserId == _userId)
+            .FirstOrDefaultAsync();
 
+        if (userfavorite == null)
+        {
+            return null; // User not found
+        }
+
+        var recipe = await _context.Recipes
+            .Where(r => r.RecipeId == recipeId)
+            .FirstOrDefaultAsync();
+
+        if (recipe == null)
+        {
+            return null; // Recipe not found
+        }
+
+        userfavorite.ListOfRecipes.Add(recipe);
+        await _context.SaveChangesAsync();
+
+        // Map Recipe to RecipeDetail
+        RecipeDetail addedRecipeDetail = new RecipeDetail
+        {
+            RecipeId = recipe.RecipeId,
+            Title = recipe.Title,
+            Description = recipe.Description,
+            Instruction = recipe.Instruction,
+            // Add other properties as needed
+        };
+
+        return addedRecipeDetail;
     }
 
-    /*
     public async Task<bool> DeleteUserFavoriteAsync(int recipeId)
     {
-        var user = await _context.UserFavorites.Where(e => e.UserId == _userId).Include(l => l.ListOfRecipes).ToListAsync();
-        foreach (var recipe in user[0].ListOfRecipes)
-        {
-            if (RecipeId != recipeId)
-                return false;
+        var user = await _context.UserFavorites
+            .Where(e => e.UserId == _userId)
+            .Include(l => l.ListOfRecipes)
+            .FirstOrDefaultAsync();
 
-            user.Remove(recipe);
-            return await _context.SaveChangesAsync() == 1;
-        }
-        }
-    public async Task<bool> DeleteUserFavoriteAsync(int recipeId)
-    {
-        var userFavorite = await _context.UserFavorites.FindAsync(_userId);
-        if (userFavorite.)
-
-        if (favorite?. != recipeId
+        if (user == null)
             return false;
 
-        _context.UserFavorites.Remove(favorite);
+        var recipeToRemove = user.ListOfRecipes.FirstOrDefault(r => r.RecipeId == recipeId);
+
+        if (recipeToRemove == null)
+            return false;
+
+        user.ListOfRecipes.Remove(recipeToRemove);
+
         return await _context.SaveChangesAsync() == 1;
     }
-    */
 }
 
