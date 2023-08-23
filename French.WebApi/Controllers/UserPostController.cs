@@ -6,11 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace French.WebApi.Controllers;
 
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserPostController : ControllerBase
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class UserPostController : ControllerBase
+{
+    private readonly IUserPostService _userPostService;
+
+    public UserPostController(IUserPostService userPostService)
     {
+
         private readonly IUserPostService _userPostService;
 
         public UserPostController(IUserPostService userPostService)
@@ -56,3 +61,4 @@ namespace French.WebApi.Controllers;
                 : BadRequest("UserPosts failed to be deleted.");
         }*/
     }
+
