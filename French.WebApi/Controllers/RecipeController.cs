@@ -50,7 +50,7 @@ namespace French.WebApi.Controllers;
         public async Task<IActionResult> DeleteRecipe([FromRoute] int recipeId)
         {
             return await _recipeService.DeleteRecipeAsync(recipeId)
-                ? Ok($"Recipe {recipeId} was deleted 1successfully.")
+                ? Ok($"Recipe {recipeId} was deleted successfully.")
                 : BadRequest($"Recipe {recipeId} could not be deleted.");
         }
         
