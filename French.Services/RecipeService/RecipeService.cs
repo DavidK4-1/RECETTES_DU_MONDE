@@ -65,7 +65,7 @@ public class RecipeService : IRecipeService
 
         numberOfChanges = await _dbContext.SaveChangesAsync();
 
-        if (numberOfChanges != 1)
+        if (numberOfChanges < 1)
             return false;
 
         return true;

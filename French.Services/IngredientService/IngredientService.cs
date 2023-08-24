@@ -29,7 +29,8 @@ public class IngredientService : IIngredientService{
             return null;
         return new IngredientItem() {
             Description = Ingredient.Description,
-            Name = Ingredient.Name
+            Name = Ingredient.Name,
+            Id = Ingredient.IngredientId
         };
     }
     /*
@@ -54,6 +55,7 @@ public class IngredientService : IIngredientService{
     */
     public async Task<IEnumerable<IngredientItem>> GetAllIngredientItemsAsync()
         => await _context.Ingredients.Select(x => new IngredientItem() { Description = x.Description,
-                                                                         Name = x.Name
+                                                                         Name = x.Name,
+                                                                         Id = x.IngredientId
                                                                        }).ToListAsync();
 }
