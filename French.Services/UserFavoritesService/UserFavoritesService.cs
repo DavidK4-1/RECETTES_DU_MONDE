@@ -77,7 +77,7 @@ public class UserFavoritesService : IUserFavoritesService
         return returnList;
     }
 
-    public async Task<RecipeDetail> AddRecipeToFavoritesAsync(int recipeId)
+    public async Task<RecipeDetail?> AddRecipeToFavoritesAsync(int recipeId)
     {
         var userfavorite = await _context.UserFavorites
             .Include(uf => uf.ListOfRecipes)
