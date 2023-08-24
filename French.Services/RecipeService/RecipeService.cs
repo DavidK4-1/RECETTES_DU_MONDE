@@ -145,23 +145,6 @@ public class RecipeService : IRecipeService
 
     public async Task<RecipeDetail?> GetRecipeByRecipeIdAsync(int recipeId)
     {
-        /*
-        _dbContext.Recipes.Include(i => i.ListOfIngredients);
-
-        var recipe = await _dbContext.Recipes
-            .FindAsync(recipeId);
-
-        return recipe is null
-        ? null
-        : new RecipeDetail
-        {
-            RecipeId = recipe.RecipeId,
-            Title = recipe.Title,
-            Description = recipe.Description,
-            Instruction = recipe.Instruction,
-            ListOfIngredients = recipe.ListOfIngredients
-        };
-        */
         var recipe = await _dbContext.Recipes.Include(i => i.ListOfIngredients).Where(i => i.RecipeId == recipeId).FirstOrDefaultAsync();
 
         return recipe is null
