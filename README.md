@@ -177,7 +177,7 @@ Welcome to **Recettes du Monde**, your culinary companion for exploring, sharing
 
 ## Required Software
 
-- *Docker* a container [Docker]([https://www.docker.com/)
+- *Docker* a container [Docker]([https://www.docker.com)
 - *Azure Data Studio* for the database [Azure Data Studio](https://azure.microsoft.com/en-us/products/data-studio)
 - *.Net* for the softwares framework [.Net](https://dotnet.microsoft.com/en-us/download)
 - *PostMan* to interact with the Api [Postman](https://www.postman.com/)
